@@ -1,0 +1,123 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+
+<body>
+  <div th:fragment="footer">
+
+    <!--Footer USER-->
+    <footer sec:authorize="!isAuthenticated()" class="page-footer black text-center text-md-left pt-0">
+
+      <!--Footer Links-->
+      <div class="container">
+
+        <!--Grid row-->
+        <div class="row pt-5 mb-3 text-center d-flex justify-content-center">
+
+          <!--Grid column-->
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="#!">About us</a>
+            </h6>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="#!">Help</a>
+            </h6>
+          </div>
+          <!--Grid column-->
+
+
+        </div>
+        <!--Grid row-->
+
+        <hr class="rgba-white-light" style="margin: 0 15%;">
+
+        <!--Grid row-->
+        <div class="row d-flex text-center justify-content-center mb-md-0 mb-4">
+
+          <!--Grid column-->
+          <div class="col-md-8 col-12 mt-5">
+            <p style="line-height: 1.7rem">Some funky FVIV Festivals Stuff goes here!</p>
+
+          </div>
+          <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+        <hr class="clearfix d-md-none rgba-white-light" style="margin: 10% 15% 5%;">
+
+        <!--Grid row-->
+        <div class="row pb-3">
+
+          <!--Grid column-->
+          <div class="col-md-12">
+
+            <div class="footer-socials mb-5 flex-center">
+              <!--Facebook-->
+              <a class="p-2 m-2 fa-lg fb-ic" href="https://www.facebook.com/FVIV-Events-109983937178291/">
+                <i class="fab fa-facebook-f fa-lg white-text mr-md-4"> </i>
+              </a>
+              <!--Twitter-->
+              <a class="p-2 m-2 fa-lg tw-ic" href="https://twitter.com/EventsFviv">
+                <i class="fab fa-twitter fa-lg white-text mr-md-4"> </i>
+              </a>
+              <!--Google +-->
+              <a class="p-2 m-2 fa-lg gplus-ic" href="https://www.google.com/intl/de/gmail/about/#">
+                <i class="fab fa-google-plus-g fa-lg white-text mr-md-4"> </i>
+              </a>
+              <!--Instagram-->
+              <a class="p-2 m-2 fa-lg ins-ic" href="https://www.instagram.com/fviv.events/">
+                <i class=" fab fa-instagram fa-lg white-text mr-md-4"> </i>
+              </a>
+            </div>
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+
+      </div>
+      <!--/Footer Links-->
+
+      <!--Copyright-->
+      <div class="footer-copyright py-3 text-center">
+        <div class="container-fluid">
+          © 2020 Copyright: <a href="https://fviv-festivals.com/" target="_blank"> FVIV-Festivals.com </a>
+        </div>
+      </div>
+      <!--/Copyright-->
+
+      </footersec:authorize="!isAuthenticated()">
+      <!--/Footer-->
+
+
+
+      <!-- FOOTER MANAGER -->
+
+      <!-- FOOTER Festival Manager -->
+
+      <!-- FOOTER Catering -->
+
+      <!-- FOOTER SECURITY -->
+
+      <!-- FOOTER TICKET_SALESMAN -->
+
+</body>
+
+</html>

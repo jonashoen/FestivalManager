@@ -1,0 +1,130 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+  <title>Areas</title>
+</head>
+
+<body>
+  <!--  START HERE  -->
+  <script type="text/javascript" language="javascript">
+    function goToCreateArea() {
+      var currURL = location.pathname
+      currURL = currURL.replace("/area", "/createArea");
+      location.href = currURL;
+    }
+  </script>
+
+  <section
+    sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER') or hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')">
+
+    <!--  NavBar -->
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <a href="/" class="navbar-brand">
+        <h3 class="mb-0">FVIV</h3>
+      </a>
+      <ul class="navbar-nav mr-auto smooth-scroll">
+        <li class="nav-item">
+          <a href="/location" class="nav-link">Back</a>
+        </li>
+      </ul>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="navbar-nav nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="fas fa-user-secret"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+          <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out" />
+          </form>
+        </li>
+      </ul>
+    </nav>
+    <!--  Overlay -->
+    <section class="d-flex align-items-center" id="showcase2">
+      <div id="overlay"></div>
+      <div id="header" class="container text-white text-center">
+        <h1 class="text-center dark-grey-text font-weight-bold mb-5 pt-3">
+          <strong>All Areas</strong>
+        </h1>
+      </div>
+    </section>
+
+
+
+    <div id="wrapper" class="container">
+      <h1 class="text-center mb-05">Current Areas</h1>
+      <div class="container text-center">
+        <ul class="list-group" th:each="area : ${areaList}">
+          <h3 th:text="'Area: ' + ${area.getZone()}"></h3>
+
+          <li class="list-group-item">
+            <label for="type"><b>Type: </b></label>
+            <label th:text="${area.getType()}"></label>
+          </li>
+
+          <li class="list-group-item">
+            <form method="get" th:action="@{'/location/' + ${location.getName()} + '/area/changeStatus'}">
+              <label for="blocked"><b>Blocked: </b></label>
+              <input type="hidden" name="area" th:value="${area}" />
+              <button id="btn__" type="submit" th:text="${area.getStatus()}"></button>
+              <button id="btn_" class="btn btn-success">
+                <a th:href="@{'/location/' + ${location.getName()} + '/area/' + ${area.getId()}}"
+                  class="text-light">Edit Area</a>
+              </button>
+              <button th:if="${area.getMaxStages()!=null}" id="btn_" class="btn btn-dark">
+                <a th:href="@{'/location/' + ${location.getName()} + '/area/' + ${area.getZone()}} + '/stage'"
+                  class="text-light">View Stages</a>
+              </button>
+          </li>
+          <br>
+          <br>
+        </ul>
+      </div>
+    </div>
+    <br>
+    <section class="d-flex align-items-center mb-02">
+      <div id="header" class="container text-white text-center">
+        <button class="btn btn-primary">
+          <a href="#" onclick="goToCreateArea()" class="text-light">Create a new Area</a>
+        </button>
+      </div>
+    </section>
+    <br>
+    <br>
+  </section>
+
+
+
+
+
+  <!-- BOOTSTRAP SCRIPTS -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+  <script>
+    // Get the current year for the copyright
+    $("#year").text(new Date().getFullYear());
+  </script>
+</body>
+
+</html>

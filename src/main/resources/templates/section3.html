@@ -1,0 +1,138 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+
+<body>
+  <div th:fragment="section3">
+
+    <!-- Section 3 User -->
+    <div id="nextFestival" th:each="festival,iter : ${festivals}" th:if="${iter.index == 0}"
+      class="streak streak-photo streak-long-2 " sec:authorize="!isAuthenticated()">
+      <div class="flex-center mask rgba-black-strong">
+        <div class="text-center white-text">
+          <h2 id="festivalplanner" class="font-weight-bold mb-3 pt-4 mt-4"
+            th:text="${'Festival: ' + festival.name + ' comming soon!'}"></h2>
+          <script th:inline="javascript">
+            /*<![CDATA[*/
+            var date = /*[[${festival.startDate}]]*/ 'Sebastian';
+            /*]]>*/
+            var deadline = new Date(date).getTime();
+            var x = setInterval(function () {
+              var now = new Date().getTime();
+              var t = deadline - now;
+              var days = Math.floor(t / (1000 * 60 * 60 * 24));
+              var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((t % (1000 * 60)) / 1000);
+
+
+              document.getElementById("days").innerHTML = days;
+              document.getElementById("hours").innerHTML = hours;
+              document.getElementById("minutes").innerHTML = minutes;
+              document.getElementById("seconds").innerHTML = seconds;
+              if (t <= 0) {
+                clearInterval(x);
+                document.getElementById("Dayrow").hidden = true;
+                document.getElementById("Hourrow").hidden = true;
+                document.getElementById("Minrow").hidden = true;
+                document.getElementById("Secrow").hidden = true;
+                document.getElementById("festivalplanner").innerHTML = "Festival ended, next Festival will be displayed soon! Stay tuned!";
+                document.getElementById("festivaldate").hidden = true;
+
+
+              }
+
+            }, 1000);
+          </script>
+
+          <!--Grid row-->
+
+          <div class="row">
+
+            <!--Grid column-->
+            <div class="col" id="Dayrow">
+              <hr class="white mx-5">
+              <h1 class="display-4 font-weight-bold white-text">
+                <strong id="days"></strong>
+              </h1>
+              <hr class="white mx-5">
+              <p class="font-weight-bold spacing">DAYS</p>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col" id="Hourrow">
+              <h1 class="display-4 font-weight-bold white-text rgba-white-light mx-4 py-3 mt-3">
+                <strong id="hours"></strong>
+              </h1>
+              <p class="font-weight-bold spacing pt-3">HOURS</p>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col" id="Minrow">
+              <hr class="white mx-5">
+              <h1 class="display-4 font-weight-bold white-text">
+                <strong id="minutes"></strong>
+              </h1>
+              <hr class="white mx-5">
+              <p class="font-weight-bold spacing">MIN</p>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col" id="Secrow">
+              <h1 class="display-4 font-weight-bold white-text rgba-white-light mx-4 py-3 mt-3">
+                <strong id="seconds"></strong>
+              </h1>
+              <p class="font-weight-bold spacing pt-3">SECONDS</p>
+            </div>
+            <!--Grid column-->
+
+
+          </div>
+          <!--Grid row-->
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3 MANAGER -->
+    <div class="container" sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER')">
+      <hr>
+      <section id="economics" class="mt-5 mb-5">
+        <!-- Section heading -->
+        <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+          <strong>Down below you can go to the Overview of the total profits with all Festivals combined
+          </strong>
+        </h3>
+        <div class="text-center">
+          <a href="/totalAccountancy" class="btn btn-primary">See Overview</a>
+        </div>
+        <br>
+      </section>
+    </div>
+
+    <!-- Section 3 FESTIVAL_MANAGER -->
+
+    <!-- Section 3 CATERING -->
+
+    <!-- Section 3 SECURITY -->
+
+    <!-- Section 3 TICKET_SALESMAN -->
+
+  </div>
+</body>
+
+</html>

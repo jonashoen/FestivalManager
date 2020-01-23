@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--  BOOTSTRAP STUFF  -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+    <title>Edit Festival</title>
+
+    <style>
+        #deleteLink {
+            background: none;
+            color: #ff0000;
+            float: right;
+        }
+
+        #deleteReason {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <section
+        sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER') or hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')">
+
+        <!--  NavBar -->
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <a href="/" class="navbar-brand">
+                <h3 class="mb-0">FVIV</h3>
+            </a>
+            <ul class="navbar-nav mr-auto smooth-scroll">
+                <li class="nav-item">
+                    <a href="/#festivals" class="nav-link">Back</a>
+                </li>
+            </ul>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <i class="fas fa-user-secret"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out" />
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        <section class="d-flex align-items-center" id="showcase"></section>
+        <div class="container my-5">
+            <h3> Edit Festival</h3>
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-md-10">
+
+                        <form id="festivalEditForm" th:action="@{/festival/edit}" th:object="${festival_form}"
+                            method="POST">
+                            <input type="hidden" th:field="*{id}">
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="name">Name</label>
+                                <input class="form-control" type="text" th:field="*{name}" required>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="location">Location</label>
+                                <select class="form-control" th:field="*{location}">
+                                    <option th:each="location : ${locations}"
+                                        th:selected="${festival_form.location == location.name}"
+                                        th:text="${location.name}" th:value="${location.name}"></option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="startDate">Startdate</label>
+                                <input class="form-control" type="date" th:field="*{startDate}" required>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="endDate">Enddate</label>
+                                <input class="form-control" type="date" th:field="*{endDate}" required>
+                            </div>
+
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="amountDaytickets">Amount Daytickets</label>
+                                <input class="form-control" type="number" id="amountDaytickets"
+                                    th:name="amountDaytickets"
+                                    th:value="${festival_form.ticketBuilder.amountDayticketsInt}" required>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="amountCampingtickets">Amount Campingtickets</label>
+                                <input class="form-control" type="number" id="amountCampingtickets"
+                                    th:name="amountCampingtickets"
+                                    th:value="${festival_form.ticketBuilder.amountCampingticketsInt}" required>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="priceDayticket">Price Daytickets</label>
+                                <input class="form-control" type="number" id="priceDayticket" th:name="priceDayticket"
+                                    th:value="${festival_form.ticketBuilder.formattedPriceDayticket}" required>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="priceCampingticket">Price Campingticket</label>
+                                <input class="form-control" type="number" id="priceCampingticket"
+                                    th:name="priceCampingticket"
+                                    th:value="${festival_form.ticketBuilder.formattedPriceCampingticket}" required>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="maxVisitors">max. Visitors</label>
+                                <input class="form-control" type="number" th:field="*{maxVisitors}" required>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label class="col-form-label" for="sellingTickets">Tickets available</label>
+                                <input class="form-control" type="checkbox" th:field="*{sellingTickets}">
+                            </div>
+                            <input class="btn btn-dark" type="submit" value="ok">
+                        </form>
+                    </div>
+
+
+                    <div class="form-group col-md-8">
+                        <a href="/#festivals" class="btn btn-outline-danger" role="button">Cancel</a>
+
+                        <button type="button" class="btn btn-red" id="deleteLink" data-toggle="modal" data-target="#exampleModal">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Festival</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/festival/delete}" method="post">
+                            <input type="hidden" name="festivalId" th:value="${festival_form.id}">
+                            <textarea placeholder="Reason for deletion" id="deleteReason" name="deleteReason"></textarea>
+
+                            <input style="float:left;" type="submit" class="btn btn-primary" value="Delete">
+                            <button style="float:left; margin-left: 10px;" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!--  JQuery  -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+    <!--  Bootstrap tooltips  -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/popper.min.js}"></script>
+    <!--  Bootstrap core JavaScript  -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <!--  MDB core JavaScript  -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/mdb.min.js}"></script>
+
+</body>
+
+</html>

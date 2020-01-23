@@ -1,0 +1,198 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+  <title>TICKET</title>
+</head>
+
+<body>
+
+  <!--  START HERE  -->
+
+
+  <section
+    sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER') or hasAuthority('TICKET_SALESMAN') or hasRole('TICKET_SALESMAN')">
+    <!--  NavBar -->
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <a href="/" class="navbar-brand">
+        <h3 class="mb-0">FVIV</h3>
+      </a>
+      <ul class="navbar-nav mr-auto smooth-scroll">
+        <li class="nav-item">
+          <a href="/#tickets" class="nav-link">Back to Ticketsell</a>
+        </li>
+      </ul>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="navbar-nav nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="fas fa-user-secret"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+          <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out" />
+          </form>
+        </li>
+      </ul>
+    </nav>
+
+    <!--  Overlay -->
+    <section class="d-flex align-items-center" id="showcase">
+      <div id="overlay"></div>
+      <div id="header" class="container text-white text-center">
+        <h3 class="display-5 mb-0">Ticket Site</h3>
+        <h1 class="display-3">Print this Ticket to the Customer</h1>
+
+
+      </div>
+    </section>
+    <br>
+    <div id="div_print">
+
+      <!--  Ticket as a Table Form -->
+      <div class="container card">
+        <div class="three wide column"></div>
+        <div class="ten wide column" style="padding-top: 50px">
+
+          <h4 class="ui dividing header text-center" th:text="${'TICKET FOR FESTIVAL: ' + festivalName}"> </h4>
+          <br>
+          <table width=100% height=100%>
+            <tr>
+              <td width=40%>
+                <!-- Left part -->
+                <table class="ui celled table">
+                  <thead>
+                    <tr>
+                      <th>FESTIVAL STARTDATE</th>
+                      <th>FESTIVAL ENDDATE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td th:text="${festivalStart}">Placeholder</td>
+                      <td th:text="${festivalEnd}">Placeholder</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+              <td width=40%>
+                <!-- Right part-->
+
+                <table class="ui celled table">
+                  <thead>
+                    <tr>
+                      <th>TICKET TYPE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td th:text="${ticketType}"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </table>
+          <br>
+          <br>
+
+          <!-- Summaries-->
+
+          <table width=100% height=100%>
+            <tr>
+              <td width=40%>
+                <!-- Left part -->
+
+                <table class="ui celled table">
+                  <thead>
+                    <tr>
+                      <th>Mark on Entry: </th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                </table>
+              </td>
+              <td width=40%>
+                <!-- Right part-->
+
+                <table class="ui celled table">
+                  <thead>
+                    <tr>
+                      <th>Unique TicketID: </th>
+                      <th th:text="${id}"></th>
+                    </tr>
+                  </thead>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Price: </th>
+                <th th:text="${price}"> Placeholder </th>
+              </tr>
+            </thead>
+          </table>
+
+        </div>
+
+      </div>
+      <br>
+      <br>
+    </div>
+
+    <div class="wrapper container text-center">
+      <input name="b_print" type="button" class="ipt btn btn-success" onClick="printdiv('div_print');" value=" Print ">
+
+      <br>
+      <br>
+    </div>
+
+
+  </section>
+
+
+  <!-- Print SCRIPTS -->
+  <script language="javascript">
+    function printdiv(printpage) {
+      var headstr = "<html><head><title></title></head><body>";
+      var footstr = "</body>";
+      var newstr = document.all.item(printpage).innerHTML;
+      var oldstr = document.body.innerHTML;
+      document.body.innerHTML = headstr + newstr + footstr;
+      window.print();
+      document.body.innerHTML = oldstr;
+      return false;
+    }
+  </script>
+  <!-- BOOTSTRAP SCRIPTS -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+  <script>
+    // Get the current year for the copyright
+    $("#year").text(new Date().getFullYear());
+  </script>
+</body>
+
+</html>

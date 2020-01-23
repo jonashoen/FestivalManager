@@ -1,0 +1,139 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+	<!--  BOOTSTRAP STUFF  -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+		integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+		integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+	<link rel="stylesheet" href="css/style.css" />
+
+	<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+	<title>FVIV FESTIVAL</title>
+</head>
+
+<body>
+	<!--  START HERE  -->
+
+	<!--  NavBar -->
+	<nav th:include="navigation :: navigation"></nav>
+	<!--  Overlay -->
+	<section class="d-flex align-items-center" id="showcase">
+		<div id="overlay"></div>
+		<div id="header" class="container text-white text-center">
+			<h1 class="display-5 mb-0">Welcome to the FVIV GANG, where we create awesome Festivals, yo!</h1>
+			<h3 class="display-3">Like really cool Festivals!</h3>
+			<br>
+			<p class="lead d-none d-md-block">Some random lorem Ipsum here! </p>
+			<button id="btn" class="btn btn-lg btn-light">
+				<a class="text-dark" href="/createAccount">Create an Account!</a>
+			</button>
+		</div>
+	</section>
+
+	<!--  3 Row Column -->
+	<section>
+		<div class="container text-center" sec:authorize="!isAuthenticated()">
+			<h2 class="mt-4">Yooo, sign up, we got cookies!</h2>
+			<div class="row mt-5">
+				<div class="col-md-4">
+					<img class="img img-fluid" alt="">
+					<h3>Plan your Stage!</h3>
+					<p class="lead">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+				</div>
+				<div class="col-md-4">
+					<img class="img img-fluid" alt="">
+					<h3>Get the Line-Up</h3>
+					<p class="lead">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+				</div>
+				<div class="col-md-4">
+					<img class="img img-fluid" alt="">
+					<h3>See all Contracts</h3>
+
+				</div>
+			</div>
+		</div>
+		<div class="container text-center" sec:authorize="isAuthenticated()">
+			<div> Hallo [[${Account.firstName}]] </div>
+
+
+			<table class="ui celled table" sec:authorize="!hasAuthority('MANAGER')">
+				<thead>
+					<tr>
+						<th>sender</th>
+						<th>message</th>
+
+					</tr>
+				</thead>
+				<tbody>
+
+					<th:block th:each="message : ${messageManagement.findByReceiver(Account)}">
+						<tr>
+							<td th:text="${message.sender.getUserAccount().username}"></td>
+							<td th:text="${message.message}"></td>
+						</tr>
+					</th:block>
+				</tbody>
+
+
+			</table>
+			<div sec:authorize="!hasAuthority('MANAGER')" th:if="!${messageManagement.anyMessages(Account)}"
+				th:text="#{noMessages}"></div>
+			<table class="ui celled table" sec:authorize="hasAuthority('MANAGER')">
+
+				<thead>
+					<tr>
+						<th>receiver</th>
+						<th>message</th>
+
+					</tr>
+				</thead>
+				<tbody>
+
+					<th:block th:each="message : ${messageManagement.findBySender(Account)}">
+						<tr>
+							<td th:text="${message.receiver.getUserAccount().username}"></td>
+							<td th:text="${message.message}"></td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<div sec:authorize="hasAuthority('MANAGER')" th:if="!${messageManagement.anySentMessages(Account)}"
+				th:text="#{noSentMessages}"></div>
+			<div sec:authorize="hasAuthority('MANAGER')">
+				<form th:action="@{sendMessage/{name}(name=${Account.getUserAccount().username})}" method="get">
+					<button type="submit" th:href="@{sendMessage/{name}(name=${Account.getUserAccount().username})}"
+						th:text="#{sendNewMessage}">
+					</button>
+				</form>
+			</div>
+
+
+
+		</div>
+	</section>
+
+
+
+	<!-- BOOTSTRAP SCRIPTS -->
+	<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+		integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+		crossorigin="anonymous"></script>
+
+	<script>
+		// Get the current year for the copyright
+		$("#year").text(new Date().getFullYear());
+	</script>
+</body>
+
+</html>

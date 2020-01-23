@@ -1,0 +1,175 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+
+<body>
+  <div th:fragment="section2">
+
+    <!-- Section 2 User -->
+
+
+    <!-- Section 2 Manager -->
+
+    <!-- Ticket Sell -->
+    <section sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER')" id="tickets" class="mt-5 mb-5">
+
+      <!-- Section heading -->
+      <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+        <strong>Ticket Sale and Festivalspecific Accountancy</strong>
+      </h3>
+
+      <!--Grid row-->
+      <div class="row features-small pt-4">
+
+        <!--Grid column-->
+
+        <!-- Card -->
+        <div class="card" th:each="festival : ${festivals}">
+
+          <!-- Card content -->
+          <div class="card-body">
+
+            <!-- Title -->
+            <h4 class="font-weight-bold indigo-text text-center">
+              <strong td th:text="${festival.name}"></strong> <br>
+            </h4>
+            <h6 class="mb-3 font-weight-bold dark-grey-text text-center" th:text="${festival.startDate}">
+              Festival1.startdate</h6>
+
+            <!-- Text -->
+
+            <h5 class="text-center">Available / Price</h5>
+            <h5 class="text-center"
+              th:text="${'' + festival.ticketBuilder.amountDaytickets} + ' / ' + ${festival.ticketBuilder.priceDayticket}">
+            </h5>
+            <form method="post" role="form" class="ui form" name="form" th:action="@{/ticketDay}">
+              <input type="hidden" th:value="${festival.getId()}" name="id" />
+              <input type="hidden" value="DAYTICKET" name="sort_str" />
+              <div class="text-center">
+                <button onclick="return confirm('Was the ticket paid for?'); " class="btn btn-primary">Sell
+                  Dayticket</button>
+              </div>
+            </form>
+            <br>
+            <hr>
+            <h5 class="text-center">Available / Price</h5>
+            <h5 class="text-center"
+              th:text="${festival.ticketBuilder.amountCampingtickets} + ' / ' + ${festival.ticketBuilder.priceCampingticket}">
+            </h5>
+            <form method="post" role="form" class="ui form" name="form" th:action="@{/ticketCamping}">
+              <input type="hidden" th:value="${festival.getId()}" name="id" />
+              <input type="hidden" value="CAMPINGTICKET" name="sort_str" />
+              <div class="text-center">
+                <button onclick="return confirm('Was the ticket paid for?');" class="btn btn-primary">Sell
+                  Campingticket</button>
+              </div>
+            </form>
+            <hr>
+            <form method="get" role="form" class="ui form" name="form" th:action="@{/accountancy}">
+              <input type="hidden" th:value="${festival.getId()}" name="id" />
+              <div class="text-center">
+                <button type="submit" class="btn btn-green">
+                  <strong>See Accountancy</strong>
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+        <!-- Card -->
+        <br>
+        <hr>
+
+      </div>
+      <!--Grid row-->
+
+    </section>
+    <!-- Ticket Sell -->
+
+    <!-- Section 2 Festival Manager -->
+    <section id="festivals" sec:authorize="hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')">
+      
+      <!-- See all Festivals -->
+      <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+        <strong>All Festivals</strong>
+      </h3>
+
+      <!--Table-->
+
+      <table class="table table-bordered">
+        <thead class="black white-text">
+          <tr>
+            <th class="text-center">NAME</th>
+            <th class="text-center">LOCATION</th>
+            <th class="text-center">STARTDATE</th>
+            <th class="text-center">ENDDATE</th>
+            <th class="text-center">MAX. VISITORS</th>
+            <th class="text-center">SELLING TICKLETS</th>
+            <th class="text-center">EDIT</th>
+            <th class="text-center">FESTIVAL INVENTORY</th>
+            <th class="text-center">CONTRACTS</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="festival : ${festivals}">
+            <td th:text="${festival.name}" class="text-center"></td>
+            <td class="text-center">
+              <a th:href="${'/location/' + festival.location}" th:text="${festival.location}" class="text-primary"></a>
+            </td>
+            <td th:text="${festival.startDate}" class="text-center"></td>
+            <td th:text="${festival.endDate}" class="text-center"></td>
+            <td th:text="${festival.maxVisitors}" class="text-center"></td>
+            <td th:text="${festival.sellingTickets}" class="text-center"></td>
+            <td>
+              <a th:href="${'/festival/' + festival.name + '-' + festival.id + '/edit'}" class="btn btn-green">
+                <i class="fas fa-user-edit ml-2"></i></a>
+
+            </td>
+            <td>
+              <div class="text-center">
+                <a th:href="${'/festival/' + festival.name + '-' + festival.id + '/inventory'}" class="btn btn-green">
+                  <i class="fas fa-archive"></i>
+                </a>
+              </div>
+            </td>
+            <td>
+              <form method="get" role="form" class="ui form" name="form" th:action="@{/contracts/list}">
+                <input type="hidden" th:value="${festival.getId()}" name="id" />
+                <div class="text-center">
+                  <button type="submit" class="btn btn-green">
+                    <i class="fas fa-address-book"></i>
+                  </button>
+                </div>
+
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- Section 2 Catering -->
+
+    <!-- Section 2 SECURITY -->
+
+    <!-- Section 2 TICKET_SALESMAN -->
+
+  </div>
+</body>
+
+</html>

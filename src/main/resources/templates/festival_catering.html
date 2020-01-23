@@ -1,0 +1,164 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Lets try this !</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link type="text/css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Basic CSS with Thymeleaf -->
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" th:href="@{/resources/css/timeline.min.css}">
+    <link th:href="@{/resources/css/addons-pro/chat.css}" rel="stylesheet">
+    <style>
+        html,
+        body,
+        .view.jarallax {
+            height: 100%;
+            min-height: 100%;
+
+        }
+
+        .event-lp .navbar {
+            background-color: #000 !important;
+            box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12) !important;
+        }
+
+        #sell-headline {
+            margin-bottom: 50px;
+        }
+
+        #availableItems {
+            margin: 100px auto;
+            width: 70%;
+        }
+
+        .sell-form-item {
+            width: 200px;
+            float: left;
+        }
+
+        .sell-form-item input {
+            padding: 3px;
+        }
+        .sell-form-item p, .sell-form-item label {
+            margin: 5px 0;
+        }
+
+        .availableItems {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="event-lp">
+
+    <!-- Navigation & Intro -->
+    <section sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER') or hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER') or hasAuthority('CATERING') or hasRole('CATERING')" >
+
+        <!-- Userspecific Navbar -->
+        <nav sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER') or hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')" class="navbar navbar-expand-md navbar-dark">
+            <a href="/" class="navbar-brand">
+                <h3 class="mb-0">FVIV</h3>
+            </a>
+            <ul class="navbar-nav mr-auto smooth-scroll">
+                <li class="nav-item">
+                    <a href="/#festivals" class="nav-link">Back</a>
+                </li>
+            </ul>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <i class="fas fa-user-secret"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out" />
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Userspecific Navbar -->
+        <nav sec:authorize="hasAuthority('CATERING') or hasRole('CATERING')" class="navbar navbar-expand-md navbar-dark">
+            <a href="/" class="navbar-brand">
+                <h3 class="mb-0">FVIV</h3>
+            </a>
+            <ul class="navbar-nav mr-auto smooth-scroll">
+                <li class="nav-item">
+                    <a href="/#inventory" class="nav-link">Back</a>
+                </li>
+            </ul>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+             <!-- Catering Logout and Icon  -->
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                <a class="nav-link">
+                    <i class="fas fa-utensils"></i>
+                </a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                    <input hidden type="submit" value="Sign Out" />
+                </form>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main content -->
+        <main>
+            <div class="container text-center card" id="availableItems">
+                <br>
+                <h3 id="sell-headline" th:text="${'Sell items for Festival: ' + festival.name}"></h3>
+                <form class="text-center" th:each="item : ${festivalInventory}" th:action="@{/festival/buy}" method="post">
+                    <input type="hidden" name="festivalId" th:value="${festival.id}">
+                    <input type="hidden" name="itemId" th:value="${item.key}">
+
+                    <div class="inventoryItem text-center">
+                        <label class="sell-form-item" th:text="${inventory.findById(item.key).get().product.name}"></label>
+                        <input class="form-control sell-form-item" type="number" name="amount" min="1" th:max="${item.value}">
+                        <p class="availableItems sell-form-item" th:text="${item.value}"></p>
+                    </div>
+
+                    <input class="btn btn-success" type="submit" value="sell">
+                </form>
+                <br>
+            </div>
+        </main>
+        <!-- Main content -->
+    </section>
+
+
+    <!--  JQuery  -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+    <!--  Bootstrap tooltips  -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/popper.min.js}"></script>
+    <!--  Bootstrap core JavaScript  -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <!--  MDB core JavaScript  -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/mdb.min.js}"></script>
+
+    <!-- Custom scripts -->
+
+    <script sec:authorize="!isAuthenticated()">
+        new WOW().init();
+    </script>
+
+
+</body>
+
+</html>

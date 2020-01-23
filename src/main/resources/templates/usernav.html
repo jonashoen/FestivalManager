@@ -1,0 +1,273 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+
+<body>
+  <div th:fragment="usernavigation">
+
+    <!-- Navbar User -->
+    <nav sec:authorize="!isAuthenticated()" class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="/">FVIV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            <li class="nav-item">
+              <a th:href="@{/login}" class="nav-link" th:text="#{nav.login}">Login
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#events" data-offset="80">Upcoming Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#nextFestival" data-offset="40">Next Festival</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#faq" data-offset="40">FAQ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact" data-offset="80">Contact</a>
+            </li>
+          </ul>
+
+          <!-- Social Icon  -->
+          <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.facebook.com/FVIV-Events-109983937178291/">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://twitter.com/EventsFviv">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.instagram.com/fviv.events/">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Navbar Manager -->
+    <nav sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER')"
+      class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="/">FVIV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            <li class="nav-item">
+              <a class="nav-link" href="#festivals" data-offset="40">Festivals</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#tickets" data-offset="80">Tickets</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#economics" data-offset="80">Economics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#inventory" data-offset="40">Inventory</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#staff" data-offset="40">Staff</a>
+            </li>
+          </ul>
+
+          <!-- Manager Logout and Icon  -->
+          <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+              <a class="nav-link">
+                <i class="fas fa-user-secret"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+              <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out" />
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Navbar Festival Manager -->
+    <nav sec:authorize="hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')"
+      class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="/">FVIV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            <li class="nav-item">
+              <a class="nav-link" href="#createFestival" data-offset="80">Create a Festival</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#festivals" data-offset="80">See All Festivals</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#messages" data-offset="80">Messages</a>
+            </li>
+          </ul>
+
+
+
+          <!-- FestivalManager Logout and Icon -->
+          <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+              <a class="nav-link">
+                <i class="fas fa-user-secret"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+              <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out" />
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Navbar Catering -->
+    <nav sec:authorize="hasAuthority('CATERING') or hasRole('CATERING')"
+      class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="/">FVIV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            <li class="nav-item">
+              <a class="nav-link" href="#inventory" data-offset="80">Festival Inventory</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#messages" data-offset="80">Messages</a>
+            </li>
+          </ul>
+
+          <!-- Catering Logout and Icon  -->
+          <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+              <a class="nav-link">
+                <i class="fas fa-utensils"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+              <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out" />
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Navbar SECURITY -->
+    <nav sec:authorize="hasAuthority('SECURITY') or hasRole('SECURITY')"
+      class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="/">FVIV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            <li class="nav-item">
+              <a class="nav-link" href="#features" data-offset="80">Check Ticket</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#messages" data-offset="80">Messages</a>
+            </li>
+
+          </ul>
+
+          <!-- Social Icon  -->
+          <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+              <a class="nav-link">
+                <i class="fas fa-shield-alt"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+              <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out" />
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Navbar TICKET_SALESMAN -->
+    <nav sec:authorize="hasAuthority('TICKET_SALESMAN') or hasRole('TICKET_SALESMAN')"
+      class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="/">FVIV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            <li class="nav-item">
+              <a class="nav-link" href="#ticketsell" data-offset="80">Ticketsell</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#messages" data-offset="80">Messages</a>
+            </li>
+          </ul>
+
+          <!-- Social Icon  -->
+          <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+              <a class="nav-link">
+                <i class="fas fa-ticket-alt"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+              <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out" />
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  </div>
+</body>
+
+</html>

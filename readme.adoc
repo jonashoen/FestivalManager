@@ -1,0 +1,13 @@
+= FestivalManager
+
+A university project to manage festivals.
+
+
+== Built With
+* Spring
+* SalesPoint
+* Maven
+
+
+== License
+https://opensource.org/licenses/mit-license.php[MIT license]

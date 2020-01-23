@@ -1,0 +1,108 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Lets try this !</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link type="text/css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- Basic CSS with Thymeleaf -->
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+  <!-- Material Design Bootstrap -->
+  <link th:href="@{/resources/css/mdb.min.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/resources/css/timeline.min.css}">
+  <link th:href="@{/resources/css/addons-pro/chat.css}" rel="stylesheet">
+  <style>
+    html,
+    body,
+    header,
+    .view.jarallax {
+      height: 100%;
+      min-height: 100%;
+
+    }
+  </style>
+</head>
+
+<body class="event-lp">
+
+  <!-- Navigation & Intro -->
+  <header>
+
+    <!-- Userspecific Navbar -->
+    <nav th:replace="usernav :: usernavigation"></nav>
+
+
+    <!-- Intro Section -->
+    <div th:replace="userintro :: usersection"></div>
+
+  </header>
+
+
+  <!-- Main content -->
+  <main>
+
+    <div class="container">
+
+      <!-- Section 1 -->
+      <div th:replace="section1 :: section1"></div>
+      
+      <!-- Section 2 -->
+      <div th:replace="section2 :: section2"></div>
+
+    </div>
+
+    <!-- Section 3 -->
+    <div th:replace="section3 :: section3"></div>
+
+    <!-- Section 4 -->
+    <div th:replace="section4 :: section4"></div>
+
+    <div class="container">
+
+      <!-- Section 5 -->
+      <div th:replace=" section5 :: section5"></div>
+
+      
+
+      <!-- Section 6 -->
+
+      <div th:replace=" section6 :: section6"></div>
+
+
+
+    </div>
+
+  </main>
+  <!-- Main content -->
+
+  <!--Footer-->
+  <div th:replace=" footer:: footer"></div>
+
+
+  <!--  Timer  -->
+  <script type="text/javascript" rel="script" th:src="@{/resources/js/timer.js}"></script>
+  <!--  JQuery  -->
+  <script type="text/javascript" rel="script" th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+  <!--  Bootstrap tooltips  -->
+  <script type="text/javascript" rel="script" th:src="@{/resources/js/popper.min.js}"></script>
+  <!--  Bootstrap core JavaScript  -->
+  <script type="text/javascript" rel="script" th:src="@{/resources/js/bootstrap.min.js}"></script>
+  <!--  MDB core JavaScript  -->
+  <script type="text/javascript" rel="script" th:src="@{/resources/js/mdb.min.js}"></script>
+
+  <!-- Custom scripts -->
+
+  <script sec:authorize="!isAuthenticated()">
+    new WOW().init();
+  </script>
+
+
+</body>
+
+</html>

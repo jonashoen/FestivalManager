@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--  BOOTSTRAP STUFF  -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+    <title>Lager</title>
+
+    <style>
+        #inventoryContainer {
+            margin: 50px 0 0 100px;
+        }
+
+        .col-form-label {
+            float: left;
+            width: 200px;
+        }
+
+        .form-control {
+            float: left;
+            width: 200px;
+        }
+
+        .edit-li {
+            float: left;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .edit-ul {
+            list-style: none;
+        }
+
+        select.col-form-label {
+            margin-right: 40px;
+        }
+
+        #addToInventoryContainer {
+            float: left;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <section
+        sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER') or hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER') ">
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <a href="/" class="navbar-brand">
+                <h3 class="mb-0">FVIV FESTIVAL</h3>
+            </a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link ">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/inventory/add" class="nav-link">Add an Item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/inventory" class="nav-link active">View Inventory</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="inventoryContainer">
+            <div id="foodContainer">
+                <h4>Speisen</h4>
+                <ul class="edit-ul">
+                    <li class="edit-li" th:each="item : ${inventory.findByCategory('food')}">
+                        <form th:action="@{/inventory/edit}" method="post">
+                            <input type="hidden" name="id" th:value="${item.id}">
+                            <label class="col-form-label" th:text="${item.product.name}"></label>
+                            <input class="form-control" type="number" name="amount" th:value="${item.quantity}">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <div id="drinkContainer">
+                <h4>Getränke</h4>
+                <ul class="edit-ul">
+                    <li class="edit-li" th:each="item : ${inventory.findByCategory('drink')}">
+                        <form th:action="@{/inventory/edit}" method="post">
+                            <input type="hidden" name="id" th:value="${item.id}">
+                            <label class="col-form-label" th:text="${item.product.name}"></label>
+                            <input class="form-control" type="number" name="amount" th:value="${item.quantity}">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <div id="furnitureContainer">
+                <h4>Gegenstände</h4>
+                <ul class="edit-ul">
+                    <li class="edit-li" th:each="item : ${inventory.findByCategory('furniture')}">
+                        <form th:action="@{/inventory/edit}" method="post">
+                            <input type="hidden" name="id" th:value="${item.id}">
+                            <label class="col-form-label" th:text="${item.product.name}"></label>
+                            <input class="form-control" type="number" name="amount" th:value="${item.quantity}">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="addToInventoryContainer" th:if="${inventory.findAllNotInStock().iterator().hasNext()}">
+                <h5>Items zum Inventar hinzufügen</h5>
+
+                <form th:action="@{/inventory/addExisting}" method="post">
+                    <select class="col-form-label" name="id">
+                        <option th:each="item : ${inventory.findAllNotInStock()}" th:value="${item.id}"
+                            th:text="${item.name}"></option>
+                    </select>
+                    <input class="form-control" type="number" name="amount">
+                </form>
+            </div>
+        </div>
+
+    </section>
+
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+*,
+*::before,
+*::after
+body {
+	background: white;
+	font-family: sans-serif;
+  }
+  
+  .navbar {
+	background: black;
+	opacity: 0.8;
+  font-weight: 100;
+  font-family: 'Source Sans Pro', sans-serif;
+  }
+  .navbar-brand h3{
+	font-weight: 100;
+  }
+  .nav-item{
+	font-size: 1.3rem;
+  }
+  .nav-link:hover{
+	border-bottom: 1px solid white;
+  }
+  
+  #home-section {
+	background: url(../img/home.jpg);
+	background-repeat: no-repeat;
+    	background-size: cover;
+	background-attachment: fixed;
+	min-height: 700px;
+  }
+  
+  #home-section .dark-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	min-height: 700px;
+	background: rgba(0, 0, 0, 0.7);
+  }
+  
+  #home-section .home-inner {
+	padding-top: 150px;
+  }
+  
+  #home-section .card-form {
+	opacity: 0.8;
+  }
+  
+  #home-section .fas,
+  #create-section .fas {
+	color: #008ed6;
+	background: #fff;
+	padding: 5px;
+	border-radius: 5px;
+  }
+  
+  #explore-section .fas,
+  #share-section .fas {
+	background: #333;
+	color: #fff;
+	padding: 5px;
+	border-radius: 5px;
+  }
+  
+  #showcase{
+	background: url("") bottom center / cover no-repeat;
+	min-height: 500px;
+	position: relative;
+  }
+
+  #showcase2{
+    background: url("") bottom center / cover no-repeat;
+    min-height: 500px;
+    position: relative;
+  }
+
+  
+  #showcase h1{
+	line-height: 1;
+  }
+  
+  #overlay{
+	background: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+  }
+  #header{
+	z-index: 2;
+  }
+  #btn{
+	font-size: 1.5rem;
+	border-radius: 2rem;
+	
+  }
+  .img-fluid{
+	width: 150px;
+	height: auto;
+  }
+  #wrapper {
+	width: 500px;
+  } 
+  #wrapper .container {
+	max-width: 100%; display: block;
+  }
+  
+  
+  
+  @media(max-width: 768px){
+	.navbar{
+	  background: #1f1f1f;
+	}
+	.nav-link:hover{
+	  border-bottom: none;
+	}
+  }
+  
+  
+.box-radio-input input[type="radio"]{
+    display:none;
+}
+
+.box-radio-input input[type="radio"] + span{
+    display:inline-block;
+    background:none;
+    border:1px solid #dfdfdf;    
+    padding:0px 10px;
+    text-align:center;
+    height:35px;
+    line-height:33px;
+    font-weight:500;
+    cursor:pointer;
+}
+
+.box-radio-input input[type="radio"]:checked + span{
+    border:1px solid #23a3a7;
+    background:#23a3a7;
+    color:#fff;
+}
+
+
+  

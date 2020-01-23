@@ -1,0 +1,100 @@
+= Test-Plan
+
+Dieser Testplan stellt eine vereinfachte Version der IEEE 829-1998 Vorlage dar.
+
+== Einführung
+Dieses Dokument dient zur Zusammenfassung der Tests, mit der diese Software geprüft wird. Dies dient der Nachverfolgung für nachfolgende Entwickler, sollte das Programm in Zukunft von einem anderen Team weiterentwickelt und nachverfolgt werden.
+Zum Anderen dient es natürlich auch als Nachweis, dass dieses Programm während seiner Entwicklung ausreichend auf die  richtige Funktionalität geprüft wurde und alle Funktionen zur vollen Zufriedenheit des Kunden ausgearbeitet wurden. 
+
+== Aufbau der Testbezeichner
+
+Die ID eines Tests ergibt sich aus einem Großbuchstaben und drei Zahlen (getrennt von einem Bindestrich), dabei kann der Buchstabe entweder ein I (für Integrationstest) oder ein U (für Unit Test) sein. Dies wird im Folgenden weiter erläutert.
+
+Die drei Zahlen erlauben eine genauere Einordnung der Tests: haben zwei Tests zwei identische Zahlen an der zweiten Stelle von links, so testen sie das selbe Package bzw. die selbe Klasse. Stimmen hingegen die Zahlen an der letzten stelle überein, dann testen die Tests die selbe Funktion. Dadurch lassen sich grobe und feinere Unterscheidungen zwischen den Tests einfacher bestimmen.
+
+Beispiele für die Bezeichner wären also U-204 oder I-101.
+
+== Test Gegenstände
+
+In den hier beschriebenen Tests liegt der Fokus auf den von unserem Team programmierten Komponenten. Diese sollen sowohl als einzelne Einheiten, als auch zusammen als Einheit betrachtet und ausgiebig getestet.
+
+== Zu testende Funktionalitäten
+
+Getestet werden sowohl die Funktionalitäten der einzelnen Klassen wie zum Beispiel das Erstellen, Verändern und richtige Zuweisen von Objekten, als auch die gesamte Funktionalität im Zusammenspiel mit dem Aufruf der richtigen GUI-Seiten und Anpassung der Datenbank.
+
+== Nicht zu testende Funktionalitäten
+Eingebundene Bibliotheken von Drittanbietern werden nicht weiter getestet (eigene Tests beschränken sich auf Schnittstelle, bzw. Zusammenspiel). 
+Die folgenden Bibliotheken und deren Funktionen werden somit von den Tests ausgschlossen:
+
+* Spring
+* Salespoint
+* iText
+
+== Herangehensweise
+
+Die Tests erfolgen nach dem Bottom-Up-Prinzip. Das bedeutet, dass zu Beginn wird mit Unit Tests sicher gestellt, dass die einzelnen kleinen Blöcke isoliert ihren Zweck erfüllen. Ist dies erfolgreich, dann kann darüber hinaus das Zusammenspiel mehrerer Komponenten mit Integrationstests getestet werden. 
+
+== Umgebungsvoraussetzungen
+* Spezielle Hardware wird nicht vorausgesetzt, jedoch wird das Programm primär auf den Terminals laufen, weshalb diese explizit getestet werden.
+* Jeder Test benötigt andere Startbedingungen und Daten, um durchgeführt zu werden. Deshalb werden die Test so konzipiert, dass die entsprechenden Bedingungen im Vorhinein geschaffen werden. So muss vom Ausführenden nicht auf die Existenz bestimmten Daten zum Testen geachtet werden.
+* Zur Durchführung ist neben der Software und Java 11 auch noch JUnit 5 benötigt. Außerdem wird die aktuelle Version der Browser benötigt, für die manuell die Funktionalität getestet werden soll. 
+* Die Software wird lokal auf den Maschinen getestet, besondere Infrastrukur ist also nicht von Nöten. 
+
+== Testfälle und Verantwortlichkeit
+Jede testbezogene Aufgabe muss einem Ansprechpartner zugeordnet werden.
+
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="headers"]
+|===
+|ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe |Verantwortlicher
+|U101-1  |Ein Festival wird erstellt.             |Es gibt einen FestivalManager und der Nutzer ist als Manager angemeldet.              |Name des neuen Festivals.      |Ein neues Festival wurde erstellt.      |
+|U101-2 |Ein Festival wird erstellt.             |Es gibt einen FestivalManager und der Nutzer ist nicht als Manager angemeldet.              |Name des neuen Festivals.      |Fehlermeldung, da die nötigen Berechtigungen fehlen.     |
+|U102-1 |Die Gesamtzahl der Besucher wird abgerufen. |Ein Festival wurde erstellt, der Nutzer ist als Manager angemeldet und es sind noch keine Besucher erfasst. |Klick auf einen Button. |"0" |
+|U102-2 |Die Gesamtzahl der Besucher wird abgerufen. |Ein Festival wurde erstellt, der Nutzer ist nicht als Manager angemeldet. |Klick auf einen Button. |Fehlermeldung, da die nötigen Berechtigungen fehlen. |
+|U102-3 |Die Gesamtzahl der Besucher wird abgerufen. |Ein Festival wurde erstellt, der Nutzer ist als Manager angemeldet und es sind Besucher erfasst. |Klick auf einen Button. |Anzahl der Besucher. |
+|U103 |To-Do-Liste eines Festivals wird abgerufen. |Ein Festival wurde erstellt und der Nutzer ist als Manager angemeldet. |Klick auf einen Button. |To-Do-Liste des Festivals |
+
+|I104 |Maximale Besucherzahl wird abgerufen. |Es gibt ein Festival und der Nutzer ist als Manager angemeldet. | Klick auf Button. | Die maximale Besucheranzahl wird berechnet und ausgegeben. |
+
+|U201 |Inventar wird automatisch mit Festival erstellt. |Es gibt ein Festival und der Nutzer ist als Manager angemeldet. |- |Es gibt ein Inventar zu dem Festival |
+|U202|Item zum Inventar hinzufügen. |Es gibt ein Festival mit einem leeren Inventar, der Nutzer ist als Manager angemeldet.  |Das zu kaufende Item wird zusammen mit einer Quantität ausgewählt und mit einem Button bestätigt.|Die Items sind nun im Inventar enthalten. |
+|U203-1 |Items werden aus dem Lager herausgenommen. |Es sind Items im Lager vorhanden und der Nutzer ist entweder als Manager oder als CateringPersonal angemeldet. |Das entsprechende Item wird mit einer entsprechenden Quantität ausgewählt und verkauft. |Im Inventar sind nun um diese Quantität weniger Items enthalten. |
+|U203-2 |Items werden aus dem Lager herausgenommen. |Es sind Items im Lager vorhanden und der Nutzer ist entweder als Manager oder als CateringPersonal angemeldet. |Das entsprechende Item wird mit einer entsprechenden Quantität ausgewählt, welche aber größer ist als der Lagerbestand und verkauft. |Fehlermeldung, da nicht genug Items im Inventar sind. |
+|U204-1 |Lagerübersicht wird angefordert. |Es sind Items im Lager vorhanden und der Nutzer ist entweder als Manager angemeldet. |Über einen entsprechenden Button wird eine Lagerübersicht angefordert. |Die gelagerter Items werden aufgelistet. |
+|U204-2 |Lagerübersicht wird angefordert. |Es sind keine Items im Lager vorhanden und der Nutzer ist entweder als Manager angemeldet. |Über einen entsprechenden Button wird eine Lagerübersicht angefordert. |Es wird eine leere Liste angezeigt. |
+
+|I205 |Mitteilung bei kritischem Lagerbestand. |Es sind Items über die minimale Menge hinaus im Inventar gelagert. |Es werden so viele eines Items aus dem Lager genommen, dass die kritische Grenze überschritten wird. |Der Manager bekommt eine Mitteilung. |
+
+|U301 |EconomicManager wird beim Erstellen eines Festivals miterstellt. |Es gibt ein Festival und der Nutzer ist als Manager angemeldet. |- |Es gibt einen EconomicManager |
+|U302 |Kostenpunkt wird hinzugefügt. |Es gibt einen EconomicManager. |Ein Kostenpunkt wird erstellt. |Der Kostenpunkt ist in der Übersicht enthalten. |
+|U302 |Kostenpunkt wird hinzugefügt. |Es gibt einen EconomicManager. |Ein leerer Kostenpunkt wird erstellt. |Fehlermeldung, da die Einträge immer einen Betrag und einen Namen haben müssen. |
+|U303-1 |EconomicData wird abgerufen. |Es gibt einen EconomicManager mit Einträgen und der Nutzer ist als Manager angemeldet. |Die Übersicht wird über einen Button aufgerufen. |Die registrierten Kostenpunkte werden in einer Tabelle zusammengefasst. |
+|U303-2 |EconomicData wird abgerufen. |Es gibt einen EconomicManager ohne Einträge und der Nutzer ist als Manager angemeldet. |Die Übersicht wird über einen Button aufgerufen. |Es wird eine leere Liste angezeigt. |
+|U303-3 |EconomicData wird abgerufen. |Es gibt einen EconomicManager und der Nutzer ist nicht als Manager angemeldet. |Die Übersicht wird über einen Button aufgerufen. |Fehlermeldung, da die nötigen Berechtigungen fehlen. |
+
+|U401-1 |Contract wird erstellt. |Es gibt ein Festival und der Nutzer ist als Manager angemeldet. |Erstellungsformular für einen neuen Contract wird ausgefüllt. |Ein neuer Contract wurde erstellt. |
+|U401-2 |Contract wird erstellt. |Es gibt ein Festival und der Nutzer ist nicht als Manager angemeldet. |Erstellungsformular für einen neuen Contract wird ausgefüllt. |Fehlermeldung, da die nötigen Berechtigungen fehlen.|
+|U402-1 |Contract-Übersicht wird abgerufen. |Es wurden Contracts erstellt. |Die Aufforderung wird mit einem Klick auf eine Button bestätigt. |Die Contracts werden alle aufgelistet. |
+|U402-2 |Contract-Übersicht wird abgerufen. |Es wurden keine Contracts erstellt. |Die Aufforderung wird mit einem Klick auf eine Button bestätigt. |Es wird eine leere Liste angezeigt. |
+|U403 |Gesamtkosten eines Contracts werden berechnet. |Es wurde ein Contract angelegt. |Die Aufforderung wird mit einem Klick auf eine Button bestätigt. |Der Zahlenwert wird angezeigt. |
+
+|U501-2 |Tickets werden erstellt. |Es gibt ein Festial, welches Tickets verkauft und der Nutzer ist nicht als TicketSalesman angemeldet. |Das Auswahlformular für Tickets wird ausgefüllt. |Fehlermeldung, da die nötigen Berechtigungen fehlen. |
+|U501-3 |Tickets werden erstellt. |Es gibt ein Festial, welches keine Tickets mehr verkauft. |Das Auswahlformular für Tickets wird ausgefüllt. |Fehlermeldung, es wird auf die Abendkasse verwiesen. |
+|U501-4 |Tickets werden erstellt. |Es gibt ein Festial, wessen Karten ausverkauft sind. |Das Auswahlformular für Tickets wird ausgefüllt. |Fehlermeldung, es gibt keine Karten mehr. |
+|U502 |Ticket finden. |Das Ticket wurde erstellt. |Ticketnummer. |Das richige Ticket wird ausgegeben. |
+
+|I503 |Tickets werden erstellt. |Es gibt ein Festial, welches Tickets verkauft und der Nutzer ist als TicketSalesman angemeldet. |Das Auswahlformular für Tickets wird ausgefüllt. |Das Ticket wurde erstellt und abgerechnet und ist nun als verwendetes Ticket abgelegt. |
+
+|U601-1 |Besucherzahlen abrufen. |Es gibt einen Festival und der Nutzer ist als Manager angemeldet.       |Klick auf einen Button. |Die Besucherzahl wird berechnet und angezeigt. |
+|U601-2 |Besucherzahlen abrufen. |Es gibt einen FestivalManager und der Nutzer ist nicht als Manager angemeldet. |Klick auf einen Button. |Fehlermeldung, da die nötigen Berechtigungen fehlen. |
+|U602-1 |Bühnenbelegung abrufen. |Es gibt ein Festival mit einer Location und der Nutzer ist als Manager angemeldet.       |Klick auf einen Button. |Die Bühnenbelegung wird abgerufen und angezeigt. |
+|U602-2 |Bühnenbelegung abrufen. |Es gibt ein Festival ohne Location und der Nutzer ist als Manager angemeldet. |Klick auf einen Button. |Fehlermeldung, da es keine Location gibt für die die Bühnenbelegung angezeigt werden kann. |
+|U603-1 |Area editieren. |Es gibt eine Area und der Nutzer ist als Manager angemeldet. |Ausfüllung eines Formulars und klick auf einen Button. |Die Änderungen werden übernommen und in der Datenbank gespeichert. |
+|U603-2 |Area editieren. |Es gibt eine Area und der Nutzer ist als Manager angemeldet. |Keine Ausfüllung eines Formulars und klick auf einen Button.|Fehlermeldung, da keine Daten zum Ändern angegeben wurden. |
+|U603-3 |Area editieren. |Es gibt keine Area und der Nutzer ist als Manager angemeldet. |Ausfüllung eines Formulars und klick auf einen Button.|Fehlermeldung, da es keine Area gibt. |
+
+|I704-1 |Waren verkaufen. |Das ausgewähle Produkt ist verfügbar, es werden weniger Items gekauft als maximal verfügbar und der Nutzer ist als Cateringpersonal angemeldet. |Ausfüllung eines Formulars und Klick auf Button.  |Die Menge des Items wird um die gekaufte Anzahl verringert. |
+|I704-2 |Waren verkaufen. |Das ausgewähle Produkt ist verfügbar, es werden mehr Items gekauft als maximal verfügbar und der Nutzer ist als Cateringpersonal angemeldet. |Ausfüllung eines Formulars und Klick auf Button.  |Es wird eine Fehlermeldung angezeigt da nicht genügend Items vorhanden sind. |
+|I704-3 |Waren verkaufen. |Das ausgewähle Produkt ist nicht verfügbar und der Nutzer ist als Cateringpersonal angemeldet. |Ausfüllung eines Formulars und Klick auf Button.  |Es wird eine Fehlermeldung angezeigt da das Item nicht auf Lager ist. |
+
+|===

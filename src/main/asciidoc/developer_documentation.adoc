@@ -1,0 +1,387 @@
+
+= Entwicklerdokumentation
+
+== 1. Einführung und Ziele
+=== 1.1 Aufgabenstellung
+==== Festival
+Das System soll unter anderem in der Planungsabteilung eingesetzt werden, in der Festivals (_Festival_) angelegt werden.
+Dazu muss ein Termin (_Festival.Date_ ) festgelegt werden und die passende Location (_Location_) zu diesem Zeitpunkt gebucht werden.
+Doppelbuchungen dieser Locations sind unter allen Umständen zu vermeiden. Jede Location bietet Platz für eine maximale Anzahl von Besuchern (_Festival.MaxVisitors_) und Bühnen (_Festival.MaxStages_).
+Außerdem ist jede Location in verschiedene, eindeutig gekennzeichnete Bereiche (_Area_) unterteilt, die wiederum einen Teil der maximalen Besucherzahl (_Area.MaxVisitors_) fassen können und sich außerdem in Camping-, Park-, Catering- und Stage-Bereiche (_Type_) einordnen.
+Um dem Planungsteam einen guten Überblick zu verschaffen, ist es zwingend notwendig, dass das Gelände und die Bereiche visualisiert werden können (_Layout_). Sobald die Location gebucht ist, können für dieses Festival Anpassungen durchgeführt werden,
+wie die Bühnenpositionierung, Toilettenbestückung und Cateringstände, und es muss möglich sein,bestimmte Bereiche zu sperren. Die genannten Gegenstände (Bühnen, usw.) werden von externen Anbietern gemietet (_InventoryManager_).
+
+==== Line-Up
+In der nächsten Stufe muss das „Line-Up“ (_LineUp_) zusammengestellt werden. Dazu müssen Angebote bei verschiedenen Künstlern eingeholt werden. Anschließend werden aus diesen Angeboten Künstler ausgewählt und es muss ein Spielplan für jede Bühne erstellt werden.
+
+==== Betriebswirtschaftliche Funktion
+Neben den genannten Künstlern ist weiteres Personal erforderlich, wie Sicherheitspersonal (_Security_) (mindestens einer pro 100 Besuchern), Bedienungen an den Cateringständen (_Catering_), Bühnentechniker (Anzahl wird durch die Band bestimmt), sowie ein Veranstaltungsleiter (_Manager_).
+
+Zu jedem Zeitpunkt während der Planung muss der Planungsabteilung als auch dem Management eine automatische Kostenaufstellung (_EconomicManager_) zur Verfügung gestellt werden können, in der Kosten für Mieten, Gagen, und Sonstigem aufgelistet und aggregiert werden.
+
+==== Tickets
+Schon während der Planungsphase kann ein Event freigegeben werden, und es kann ein Kartenpreis festgelegt werden (_TicketManagement_). Es gibt dabei Camping-Tickets (_Sort.CAMPINGTICKET_), die das ganze Festival über gültig sind und Tageskarten (_Sort.DAYTICKET_).
+Diese Tickets werden bis 3 Tage vor Veranstaltungsbeginn in den Filialen der „FVIV GmbH“ verkauft und danach nur noch an der Abendkasse. Es muss den Verkaufsmitarbeitern möglich sein, bei noch vorhandenen Tickets diese zu verkaufen (_sellTicket_) und auszudrucken.
+Auf jedes Ticket wird ein Barcode bzw. eine eindeutige Nummer (_ticket.id_) aufgedruckt, mit dem es dem Personal am Festivaleingang möglich ist, das Ticket auf Gültigkeit hin zu überprüfen und zu vermeiden, dass verschiedene Personen das Gelände mit derselben Karte betreten.
+
+==== Catering
+Eine weitere Nutzergruppe ist das Cateringpersonal, das sich an entsprechenden Terminals am Verkaufsstand mit gültigem Login (_Login_) anmeldet. Dort können Getränke und vorgefertigte Speisen ausgewählt und abgerechnet werden (_sellFood_). Dabei wird das Gekaufte vom verfügbaren Lagerbestand (_InventoryManager_) abgezogen.
+Sollte ein gewisser Mindestbestand unterschritten werden erfolgt eine Mittteilung an die Festivalleitung (_Message_).
+
+==== Management
+Der Festivalleiter besitzt ebenfalls ein persönliches Terminal, an dem es ihm möglich ist, das Lager einzusehen und Nachbestellungen zu tätigen. Weiterhin sieht er dort aktuelle Besucherzahlen, Nachrichten von anderen Mitarbeitern, sowie Verkaufszahlen des Caterings und die aktuelle Bühnenbelegung.
+
+==== Terminals
+Überall auf dem Festivalgelände verteilt befinden sich Terminals, die für jeden frei nutzbar sind. Dort sieht man neben einem Plan (_Layout_) vom Festivalgelände auch den Spielplan (_Lineup_) für alle Festivaltage.
+
+==== Logins
+Der Manager der „FVIV GmbH“ sorgt für die Verteilung der Logins an die Mitarbeiter und kann sehen, welcher Mitarbeiter momentan am System angemeldet ist (_StaffManager_). Weiterhin soll es ihm möglich sein, betriebswirtschaftliche Daten, wie Umsatz, Ausgaben,... , abzurufen und grafisch zu visualiseren (_EconomicManager_).
+
+
+=== 1.2 Qualitätsziele
+Um die Qualität der Software messen zu können, müssen Qualitätsziele definiert werden.
+Diese werden in diesem Abschnitt festgelegt und beschrieben.
+
+==== Wartbarkeit
+
+Dieses Ziel beschreibt den Aufwand der nötig ist um die Software anzupassen
+um sie zu verbessern, an neue Umstände anzupassen oder Fehler zu beheben.
+
+==== Nutzerfreundlichkeit
+
+Dieses Ziel beschreibt den Grad mit dem bestimmte Nutzer klar definierte Ziele effektiv und zufriedenstellend erreichen können.
+
+==== Sicherheit
+
+Dieses Ziel beschreibt die Sicherheit der Softwarefunktion sowie der Daten, gegenüber Angreifern.
+
+==== Effizienz
+
+Dieses Ziel beschreibt die notwendige Zeit und Hardwareressourcen die notwendig sind um diese Software zu benutzen.
+
+Die Folgende Tabelle zeigt wie hoch die Priorität der einzelnen Ziele ist. Höhere Zahl bedeutet höhere Priorität.
+[options="header"]
+[cols="4,1,1,1,1,1"]
+|===
+|Qualitätsziel | 1 | 2 | 3 | 4 | 5
+|Wartbarkeit | | | | x |
+|Nutzerfreundlichkeit | | | x | |
+|Sicherheit | | | | | x
+|Effizienz | | |  |  x |
+|===
+
+== 2. Randbedingungen
+=== Hardware-Vorgaben
+Eine Liste der notwendigen devices / Hardware, um die Anwendung auszuführen und zu nutzen.
+
+* Server
+* Computer
+* Bildschirm
+* Tastatur
+* Maus
+
+=== Software-Vorgaben
+Eine Liste der notwendigen Software zum Ausführen und Verwenden der Anwendung.
+
+Die folgende (oder neuere) Java-Version ist notwendig, um die Anwendung auszuführen:
+
+* Java 11
+
+Die folgende (oder neuere) Maven-Version ist notwendig, um die Anwendung auszuführen:
+
+* Apache Maven 3.6.2
+
+Die folgende (oder neuere) Browser-Versionen sind notwendig, um die Anwendung auszuführen:
+
+* Google Chrome 78.0.3904.70
+
+=== Vorgaben zum Betrieb des Software
+Dieser Abschnitt gibt einen Überblick darüber, wie das Produkt nach Fertigstellung und unter welchen Umständen verwendet werden soll.
+
+Das System wird von FVIV GmbH verwendet, damit die Firma sich um seine Festivals zu kümmern. Die Software soll auf einem Server laufen und interessierten Kunden(Festivalbesucher) über das Internet (über einen Browser) rund um die Uhr zur Verfügung stehen.
+
+Die Hauptnutzer der Software sind Mitarbeiter in einer Firma, die angeblich typische Website-Navigationsschema kennen.
+
+Alle Daten müssen dauerhaft auf Git gespeichert sein und lokal unter localhost:8080 abrufbar sein.
+
+== 3. Kontextabgrenzung
+=== Kontextdiagramm
+image:models/analysis/Systemgrenze_und_Top-Level-Architektur/festivalmanager_context.svg[context diagram]
+
+== 4. Lösungsstrategie
+=== 4.1 Erfüllung der Qualitätsziele
+[options="header"]
+|=== 
+|Qualitätsziel |Lösungsansatz
+|Wartbarkeit a|
+* Modularität Das System wird in voneinander unabhängige Komponenten gegliedert, sodass Änderung innerhalb einer Komponenten
+keine Veränderung an der Interaktion mit anderen Komponenten haben.
+
+* Modifizierbarkeit Es wird sichergestellt, dass das System  modifiert und erweitert werden kann
+ohne Einschränkungen in der aktuellen Funktionsweise
+
+|Nutzerfreundlichkeit a|
+* Erlernbarkeit Das System ist leicht zu verstehen und zu benutze. Dies wird erreicht durch Beschreibungen.
+* Fehlerbehandlung Ein Fehler durch Nutzereingabe führt nicht zum Absturz der Software/ Fehler verursachende Eingabe wird verhindert.
+* Nutzeroberfläche Das System hat eine angenehme Intuitive grafische Nutzeroberfläche
+|Sicherheit a|
+* Verantwortlichkeit Aktionen können zurückverfolgt werden zu einer eindeutigen Person oder Gruppe. Um dies zu erreichen wird jede Eingabe mit einem Nutzerkonto verbunden.
+* Berechtigungen Das Verändern von Daten ist nur mit entsprechenden Berechtigungen möglich.
+* Vetraulichkeit Der Zugriff auf Daten ist nur mögclih mit entsprechenden Berechtigungen.
+| Effizienz a|
+* Speichereffizienz Verringern der Speichernutzung von Daten, Funktionen durch verwenden von geplanter Softwarestruktur
+* Geschwindigkeit Erreichen einer hohen Geschwindigkeit durch Nutzen von effizienten Algorhithmen und Datenstrukturen.
+|===
+
+=== 4.2 Softwarearchitektur
+Client-Server-Modell der Anwendung.
+Der Client enthält nur HTML- und CSS-Dateien. Die Anwendungslogik ist auf dem Server implementiert.
+
+HTML-Templates werden clientseitig mit den entsprechenden CSS-Stylesheets dargestellt. Die in den Vorlagen angezeigten Daten werden von Thymeleaf bereitgestellt. Thymeleaf erhält die notwendigen Daten von den Controller-Klassen, die im Backend implementiert sind. Diese Controller-Klassen hingegen verwenden Instanzen und Methoden der Modellklassen. Standardmäßig speichert eine zugrunde liegende H2-Datenbank die Daten persistent.
+
+=== 4.2.1 Client-Server-Diagram
+
+image::./models/design/NetworkPng.png["NetworkPng", 100%, 100%, pdfwidth=100%, align=center]
+
+
+
+=== 4.3 Entwurfsentscheidungen
+==== 4.3.1 Verwendete Muster
+* Spring MVC
+* Singleton
+
+==== 4.3.2 Persistenz
+Um die erstellten Festivals und die zugehörigen Informationen persistent zu speichern, verwenden wir eine eingebettete H2-Datenbank. Um mit unseren Objekten arbeiten zu können, wird objektrelationales Mapping mit Hilfe von Hibernate realisiert. Um den Verlust von Daten von Vorn herein auszuschließen wird die persistente Speicherung von Beginn an aktiviert. 
+
+==== 4.3.3 Benutzeroberfläche
+Die Benutzeroberfläche unserer Applikation wird hauptsächlich über HTML und CSS realisiert. Optional werden wir JavaScript einsetzen, un das Nutzererlebnis so ansprechend wie möglich zu gestalten. Hierbei ist uns jedoch wichtig, dass die Oberfläche sowohl mit, als auch ohne JavaScript genutzt werden kann. 
+Um das Programm weiterhin möglichst browserunspezifisch zu testen und die größtmögliche Flexibilität zu bieten, wird die Software für die folgenden Browsern optimiert: 
+
+* Google Chrome, Version 78.0.3904.97
+
+==== 4.3.4 Verwendung externer Frameworks
+
+[options="header", cols="1,3,3"]
+|===
+|Externe Klasse |Pfad der externen Klasse |Verwendet von (Klasse der eigenen Anwendung)
+|Accountency |org.salespointframework.accountancy |EconomicManager
+|AccountencyEntry |org.salespointframework.accountancy |EconomicList, EconomicManager
+|Assert |org.springframework.util|EconomicController, TicketController, TicketManagementLocation, Staff
+|Catalog |org.salespointframework.catalog|Inventory
+|CrudRepository |org.springframework.data.repository |CampingticketRepository, DayticketRepository, Festival, Staff, Location
+|DataInitializer |org.salespointframework.core |Inventory, Staff, Location
+|Errors |org.springframework.validation |EconomicController, TicketController, Staff, Location
+|GetMapping |org.springframework.web.bind.annotation.GetMapping |EconomicController, TicketController, LocationController
+|Metric |org.salespointframework.quantity.Metric| TicketBuilder
+|Model |org.springframework.ui |EconomicController, TicketController, ContractManager, Inventory, Festival, Location, Staff
+|ModelAttribute |org.springframework.web.bind.annotation.ModelAttribute| EconomicController, TicketController
+|MonetaryAmount |javax.money.MonetaryAmount |EconomicManager
+|Money |org.javamoney.moneta.Money |EconomicManager, TicketBuilder
+|PostMapping |org.springframework.web.bind.annotation.PostMapping |TicketController, LocationController
+|Product |org.salespointframework.catalog |Inventory
+|Quantity |org.salespointframework.quantity |Inventory, TicketBuilder, TicketManagement
+|Role |org.salespointframework.useraccount |Staff
+|StereoType Controller |org.springframework.stereotype |ContractManager
+|Streamable |org.springframework.data.util |Staff
+|UniqueInventory |org.salespointframework.inventory | Inventory
+|UniqueInventoryItem |org.salespointframework.inventory |Inventory
+|UserAccount |org.salespointframework.useraccount |Staff
+|UserAccountManager |org.salespointframework.useraccount |Staff
+|Valid |javax.validation.Valid |EconomicController, TicketController, LocationController
+|===
+
+== 5. Bausteinsicht
+
+=== 5.1 Package Diagram
+image:./models/design/Package_Diagram.svg[package diagram]
+
+=== 5.1.1 EconomicManager
+
+image::./models/design/Bausteinsicht_EconomicManager.PNG["Bausteinsicht EconomicManager", 100%, 100%, pdfwidth=100%, align=center]
+
+[options="header"]
+|=== 
+|Klasse/Enumeration |Beschreibung
+|EconomicController |Der EconomicController dient zum Parsen zwischen HTML und Java
+|EconomicList       |Die EconomicList ermöglicht die Herstellung eines Zusammenhangs von Ausgaben und Einnahmen zu bestimmten Festivals
+|EconomicManager    |Diese Klasse dient zur zentralen Verwaltung aller Einnahmen und Ausgaben, um eine Übersicht zu ermöglichen.
+|===
+
+=== 5.1.2 TicketManagement
+
+image::./models/design/Bausteinsicht_TicketManager.PNG["Bausteinsicht TicketManager", 100%, 100%, pdfwidth=100%, align=center]
+
+[options="header"]
+|=== 
+|Klasse/Enumeration |Beschreibung
+|TicketController   |Der TicketControler dient zum Parsen zwischen HTML und Java
+|TicketBuilder      |Der TicketBuilder ermöglicht es, Tickets bestimmten Festivals zuzuordnen
+|TicketManagement   |Das TicketManagement dient der Speicherung aller ausgegebenen Tickets, um einen späteren Ausdruck und die Kontrolle zu ermöglichen und das doppelte Verwenden einer Eintrittskarte zu verhindern.
+|Campingticket      |Das Ticket dient zum Erstellen einzelner, indvidueller Campingtickets
+|Dayticket          |Das Ticket dient zum Erstellen einzelner, indvidueller Tagestickets
+|Ticket             |Allgemeine Form des Tickets mit allen benötigten Attributen
+|TicketRepository |Das Repository dient zum Speichern der Tickets
+|Sort               |Enumeration um das Ticket als DAYTICKET oder CAMPING zu kategorisieren und so Berechtigungen für die Besucher festzulegen.
+|EconomicManager    |Der Verkauf von Tickets ist eine Einnahmequelle, die Beträge werden in die Kosten/Ertrag-Übersicht übergeben.
+|===
+
+=== 5.1.3 ContractsManager
+
+image::./models/design/Bausteinsicht_ContractManager.png["BausteinsichtContractManager", 100%, 100%, pdfwidth=100%, align=center]
+
+[options="header"]
+|=== 
+|Klasse/Enumeration |Beschreibung
+|ContractController |Der Contractcontroller dient zur Ausgabe aller notwendigen Daten an das Thymeleaf Template zur Einarbeitung der Daten in die notwendige HTML-Page.
+|ContractManager    |Der ContractManager kann Contracts erstellen und die passenren Stages dazu speichern.
+|Contract               |Die Contractklasse dient dazu Contracts zwischen Künstlern und der FVIV zu erstellen, welche dann an den ContractsManager übergeben werden können und gespeichert werden.
+|===
+
+
+=== 5.1.4 Inventory
+
+image::./models/design/InventoryPackage.svg["InventoryPackage", 100%, 100%, pdfwidth=100%, align=center]
+
+[options="header"]
+|=== 
+|Klasse/Enumeration     |Beschreibung
+|InventoryController    |Der InventoryController dient zur Ausgabe aller notwendigen Daten an das Thymeleaf Template zur Einarbeitung der Daten in die notwendige HTML-Page.
+|InventoryManager       |Der InventoryManager ist die Schnittstelle zum auslesen und nachbestellen von Items im Inventar.
+|Item                   |Die Item Klasse stellt die Produkte dar die vom Cateringpersonal verkauft werden können.
+|CatalogInitializer     |Der CatalogInitializer erstellt zum Beginn des Programmablaufs alle Items im Katalog.
+|InventoryInitializer   |Der InventoryInitializer erstellt zum Beginn des Programmablaufs alle Items im Inventar aus den Daten des Katalogs.
+|===
+
+=== 5.1.5 Festival
+
+image::./models/design/FestivalPackage.svg["FestivalPackage", 100%, 100%, pdfwidth=100%, align=center]
+
+[options="header"]
+|=== 
+|Klasse/Enumeration     |Beschreibung
+|FestivalController     |Der FestivalController dient zur Ausgabe aller notwendigen Daten an das Thymeleaf Template zur Einarbeitung der Daten in die notwendige HTML-Page.
+|FestivalInitializer    |Der FestivalInitializer erstellt zum Beginn des Programmablaufs alle Festivals zu Testzwecken in der Datenbank.
+|Festival               |Die Festival Klasse repräsentiert die stattfindenden Festivals.
+|===
+
+=== 5.1.6 Location
+
+image:./models/design/Bausteinsicht_Location.svg[class design diagram - location]
+
+[options="header"]
+|===
+|Klasse/Enumeration |Beschreibung
+|LocationController|Der LocationController dient zur Ausgabe aller notwendigen Daten an das Thymeleaf Template zur Einarbeitung der Daten in die notwendige HTML-Page.
+|LocationManager|Der LocationManager ist die Klasse in der Accounts erstellt / verändert werden.
+|LocationDataInitializer|Der LocationDataInitializer erstellt zum Beginn des Programmablaufs alle Festivals zu Testzwecken in der Datenbank.
+|Location   |Die Location fasst alle Areas zusammen und gibt dabei eine Übersicht über die Anzahl der Besucher, Bühnen, etc.
+|LocationForm|LocationForm ist das Formular, dass zur Erstellung neues Locations ausgefüllt werden muss.
+|LocationRepository|LocationRepository ist die Datenbank zur Speicherung aller Locations.
+|Area       |Areas sind einzelne Bestandteile einer Festival-Location, die verschiedene Funktionen (Type) einnehmen können.
+|AreaForm   |AreaForm ist das Formular, dass zur Erstellung neues Areas ausgefüllt werden muss.
+|AreaRepository|AreaRepository ist die Datenbank zur Speicherung aller Areas.
+|Stage      |Eine Stage ist eine Bühne mit individuellem Programm (Lineup), welches über diese Klasse auch verändert und eingesehen werden kann.
+|StageForm  |StageForm ist das Formular, dass zur Erstellung neues Stages ausgefüllt werden muss.
+|StageRepository|StageRepository ist die Datenbank zur Speicherung aller Stages.
+|Lineup   |Das Lineup enthält Festivals, Verträge sowie Daten und Zeiten. Lineup zeigt, wann und wer auf welchem Festival auftritt.
+|LineupForm|LineupForm ist das Formular, dass zur Erstellung neues Lineups ausgefüllt werden muss.
+|LineupRepository|LineupRepository ist die Datenbank zur Speicherung aller Lineups.
+|Type       |Der Type spezifiziert die Area und damit ihre Funktionen in der Location: +
+ +
+- CAMPING: Ist ein Bereich für Zelte und andere Schlafmöglichkeiten. +
+- PARK: Dient zum Abstellen von Fahrzeugen, welche zur An- und Abreise verwendet werden. +
+- CATERING: In diesem Bereich werden Cateringstände aufgestellt, Essen und Getränke verkauft. +
+- STAGE: In diesem Bereich stehen eine oder mehrere Bühnen, auf denen die Künstler auftreten.
+|===
+
+=== 5.1.7 Staff
+
+image::./models/design/package_hell.png["StaffManager", 100%, 100%, pdfwidth=100%, align=center]
+
+[options="header"]
+|=== 
+|Klasse/Enumeration     		|Beschreibung
+|Account     				|Modelliert die Zugangsdaten und betriebswirtschaftlichen Daten der Mitarbeiter. Jeder Mitarbeiter entspricht einer Instanz.
+|AccountController    			|Nimmt Html request entgegen und gibt die Entsprechende Template zurück.
+|AccountManager				|Ist die Klasse in der Accounts erstellt / verändert werden.
+|AccountRepository			|Ist die Datenbank zur Speicherung aller Accounts.
+|ActiveAccountsStore        |Speichert die Accounts die aktuell eingeloggt sind
+|changePasswordForm         |Ist das Formular, zur Änderung des Passworts eines Accounts
+|CreationForm 				|Ist das Formular, dass zur Erstellung neuer Accounts ausgefüllt werden muss.
+|Message                    |Modelliert die Nachrichten zwischen Accounts
+|MessageEvent               |Ist das Event welches ensteht beim versenden einer Nachricht
+|MessageEventListener       |Die Klasse empfängt die MessageEvents und verarbeitet sie
+|MessageForm                |Formular, dass zur Erstellung einer neuen Nachricht ausgefüllt werden muss.
+|MessageManager             |Die Klasse, die Alles zum Verwalten von Nachrichten händelt.
+|MessageRepository          |Datenbank zur Speicherung aller Nachrichten.
+|MessageState               |Zustand einer Nachricht.
+|StaffDataInitializer       |Initialisiert die Daten in der Datenbank für Accounts und Messages
+|===
+
+
+
+
+=== 5.2 Rückverfolgbarkeit zwischen Analyse- und Entwurfsmodell
+
+[options="header"]
+|===
+|Klasse/Enumeration (Analysemodell) |Klasse/Enumeration (Entwurfsmodell)
+|                                   |TicketController erstellt.
+|Ticketmanager                      |TicketManager
+|Ticket                             |Ticket
+|Sort                               |Sort
+|                                   |EconomicController erstellt.
+|EconomicManager                    |EconomicManager
+|PositiveAmount                     |AccountencyEntry
+|NegativeAmount                     |AccountencyEntry
+|ContractsManager                   |ContractManager
+|Contract                           |Contract
+|                                   |ContractController erstellt.
+|Item                               |Item
+|InventoryManager                   |InventoryManager
+|                                   |InventoryController erstellt.
+|                                   |InventoryInitializer erstellt.
+|                                   |CatalogInitializer erstellt.
+|Festival                           |Festival
+|Festivalmanager                    |FestivalManager
+|                                   |FestivalController erstellt.
+|                                   |FestivalInitializer erstellt.
+|StaffManager 			    |AccountManager
+|Staff				    |Account
+|Login 				    |Account
+|CateringPersonal		    |Account
+|Security				|Account
+|Manager				|Account
+|TicketSalesman				|Account
+|MessageController 			|Account
+|Message           			|Message
+|					|Type
+|===
+
+== 6. Laufzeitsicht
+
+=== 6.1 EconomicManager
+
+image::./models/design/Laufzeitsicht_EconomicManager.PNG["Laufzeitsicht EconomicManager", 100%, 100%, pdfwidth=100%, align=center]
+
+=== 6.2 TicketManager
+
+image::./models/design/Laufzeitsicht_TicketManager.PNG["Laufzeitsicht TicketManager", 100%, 100%, pdfwidth=100%, align=center]
+
+=== 6.3 ContractManager
+
+image::./models/design/Laufzeitsicht_ContractManager.png["Laufzeitsicht ContractManager", 100%, 100%, pdfwidth=100%, align=center]
+
+=== 6.4 Inventory
+
+image::./models/design/seq_inventory.svg["Laufzeitsicht Inventory", 100%, 100%, pdfwidth=100%, align=center]
+
+=== 6.5 Festival
+
+image::./models/design/seq_festival.svg["Laufzeitsicht Festival", 100%, 100%, pdfwidth=100%, align=center]
+
+=== 6.6 Location
+image:./models/design/Laufzeitsicht_Location.svg[sequence diagram - location]
+
+=== 6.7 Staff
+image:./models/design/seq_staff.svg["Laufzeitsicht Staff", 100%, 100%, pdfwidth=100%, align=center]

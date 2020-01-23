@@ -1,0 +1,166 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+  <title>ACCOUNTANCY</title>
+</head>
+
+<body>
+
+  <!--  START HERE  -->
+
+
+  <section sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER')">
+    <!--  NavBar -->
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <a href="/" class="navbar-brand">
+        <h3 class="mb-0">FVIV</h3>
+      </a>
+      <ul class="navbar-nav mr-auto smooth-scroll">
+        <li class="nav-item">
+          <a href="/#tickets" class="nav-link">Back to Ticketsell</a>
+        </li>
+      </ul>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="navbar-nav nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="fas fa-user-secret"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+          <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out" />
+          </form>
+        </li>
+      </ul>
+    </nav>
+
+    <!--  Overlay -->
+    <section class="d-flex align-items-center" id="showcase">
+      <div id="overlay"></div>
+      <div id="header" class="container text-white text-center">
+        <h3 class="display-5 mb-0">Festival Accountancy</h3>
+        <h1 class="display-3">This is the Accountancy for a specific Festival!</h1>
+
+
+      </div>
+    </section>
+    <br>
+    <br>
+
+    <div class="container card text-center">
+      <br>
+      <h2 class="ui dividing header text-center">
+        <strong th:text="${'Accountancy for: ' + festivalname}">Accountancy</strong>
+      </h2>
+      <br>
+      <div class="row">
+        <div class="col">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Expenses</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody th:remove="all-but-first">
+              <tr th:each="accountancyEntry : ${entrylist}" th:if="${accountancyEntry.isExpense()}">
+                <td th:text="${accountancyEntry.description}">Beschreibung</td>
+                <td th:text="${accountancyEntry.value}">Betrag</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Revenues</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody th:remove="all-but-first">
+              <tr th:each="accountancyEntry : ${entrylist}" th:if="${accountancyEntry.isRevenue()}">
+                <td th:text="${accountancyEntry.description}">Beschreibung</td>
+                <td th:text="${accountancyEntry.value}">Betrag</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Sum of Expenses: </th>
+                <th th:text="${sumExpenses}"></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="col">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Sum of Revenues: </th>
+                <th th:text="${sumRevenues}"></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <br>
+      <div class="container text-center">
+        <table class="ui celled table">
+          <thead>
+            <tr>
+              <th>Netamount</th>
+              <th th:text="${sumAll}"></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="wrapper container">
+      <input type="button" class="btn btn-success" value="Print this page" onClick="window.print()">
+      <br>
+      <br>
+    </div>
+
+
+  </section>
+
+
+  <!-- BOOTSTRAP SCRIPTS -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+  <script>
+    // Get the current year for the copyright
+    $("#year").text(new Date().getFullYear());
+  </script>
+</body>
+
+</html>

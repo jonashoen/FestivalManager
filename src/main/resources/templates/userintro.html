@@ -1,0 +1,128 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+
+<body>
+
+
+  <!-- User Intro Section -->
+  <div th:fragment="usersection" sec:authorize="!isAuthenticated()" id=" home" class="view jarallax"
+    data-jarallax='{"speed": 0.2}'>
+    <div class="mask rgba-black-strong">
+      <div class="container h-100 d-flex justify-content-center align-items-center mt-5">
+        <div class="row smooth-scroll">
+          <div class="col-md-12 text-center white-text">
+            <div class="wow fadeInDown" data-wow-delay="0.2s">
+              <h3 class="display-4 font-weight-bold mb-2 rgba-black-light py-2">Event Agency FVIV</h3>
+              <hr class="hr-light my-4">
+              <p class="clearfix d-none d-md-inline-block">Scroll down to learn more</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Manager Intro Section -->
+  <div th:fragment="usersection" sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER')" id=" home"
+    class="view jarallax" data-jarallax='{"speed": 0.2}'>
+    <div class="mask rgba-black-strong">
+      <div class="container h-100 d-flex justify-content-center align-items-center mt-5">
+        <div class="row smooth-scroll">
+          <div class="col-md-12 text-center white-text">
+            <div class="wow fadeInDown" data-wow-delay="0.2s">
+              <h3 class="display-4 font-weight-bold mb-2 rgba-black-light py-2">FVIV MANAGER</h3>
+              <hr class="hr-light my-4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FestivalManager Intro Section -->
+  <div th:fragment="usersection" sec:authorize="hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')"
+    id="home" class="view jarallax" data-jarallax='{"speed": 0.2}'>
+    <div class="mask rgba-black-strong">
+      <div class="container h-100 d-flex justify-content-center align-items-center mt-5">
+        <div class="row smooth-scroll">
+          <div class="col-md-12 text-center white-text">
+            <div class="wow fadeInDown" data-wow-delay="0.2s">
+              <h3 class="display-4 font-weight-bold mb-2 rgba-black-light py-2">FVIV FESTIVAL MANAGER</h3>
+              <hr class="hr-light my-4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Catering Intro Section -->
+  <div th:fragment="usersection" sec:authorize="hasAuthority('CATERING') or hasRole('CATERING')" id=" home"
+    class="view jarallax" data-jarallax='{"speed": 0.2}'>
+    <div class="mask rgba-black-strong">
+      <div class="container h-100 d-flex justify-content-center align-items-center mt-5">
+        <div class="row smooth-scroll">
+          <div class="col-md-12 text-center white-text">
+            <div class="wow fadeInDown" data-wow-delay="0.2s">
+              <h3 class="display-4 font-weight-bold mb-2 rgba-black-light py-2">CATERING TEAM</h3>
+              <hr class="hr-light my-4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Security Intro Section -->
+  <div th:fragment="usersection" sec:authorize="hasAuthority('SECURITY') or hasRole('SECURITY')" id=" home"
+    class="view jarallax" data-jarallax='{"speed": 0.2}'>
+    <div class="mask rgba-black-strong">
+      <div class="container h-100 d-flex justify-content-center align-items-center mt-5">
+        <div class="row smooth-scroll">
+          <div class="col-md-12 text-center white-text">
+            <div class="wow fadeInDown" data-wow-delay="0.2s">
+              <h3 class="display-4 font-weight-bold mb-2 rgba-black-light py-2">SECURITY TEAM</h3>
+              <hr class="hr-light my-4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TICKET_SALESMAN Intro Section -->
+  <div th:fragment="usersection" sec:authorize="hasAuthority('TICKET_SALESMAN') or hasRole('TICKET_SALESMAN')"
+    id="home" class="view jarallax" data-jarallax='{"speed": 0.2}'>
+    <div class="mask rgba-black-strong">
+      <div class="container h-100 d-flex justify-content-center align-items-center mt-5">
+        <div class="row smooth-scroll">
+          <div class="col-md-12 text-center white-text">
+            <div class="wow fadeInDown" data-wow-delay="0.2s">
+              <h3 class="display-4 font-weight-bold mb-2 rgba-black-light py-2">TICKET SALESTEAM</h3>
+              <hr class="hr-light my-4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

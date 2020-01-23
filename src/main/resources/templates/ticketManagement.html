@@ -1,0 +1,117 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+  <title>TICKET MANAGER</title>
+</head>
+
+<body>
+
+  <!--  START HERE  -->
+
+  <!--  NavBar -->
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <a href="" class="navbar-brand">
+      <h3 class="mb-0">FVIV FESTIVAL</h3>
+    </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="/" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="/createTicket" class="nav-link">Create a Ticket</a>
+        </li>
+        <li class="nav-item">
+          <a href="/ticketManagement" class="nav-link active">See all existing Tickets</a>
+        </li>
+        <!-- li class="nav-item">
+          <a href="/economicManager" class="nav-link">See your economic Data</a>
+        </li -->
+      </ul>
+    </div>
+  </nav>
+
+  <!--  Overlay -->
+  <section class="d-flex align-items-center" id="showcase">
+    <div id="overlay"></div>
+    <div id="header" class="container text-white text-center">
+      <h3 class="display-5 mb-0">Ticket Site</h3>
+      <h1 class="display-3">All the sold tickets so far!</h1>
+      <p class="lead d-none d-md-block">Some random lorem Ipsum here! </p>
+
+    </div>
+  </section>
+
+  <!--  Table, which gets created uppon creating a new Ticket -->
+  <div class="ui grid">
+    <div class="three wide column"></div>
+    <div class="ten wide column" style="padding-top: 50px">
+
+      <h4 class="ui dividing header">Tickets</h4>
+      <table class="ui celled table">
+        <thead>
+          <tr>
+            <th>Festival</th>
+            <th>Anzahl / Preis</th>
+            <th>Tagesticket</th>
+            <th>Anzahl / Preis</th>
+            <th>Campingticket</th>
+          </tr>
+        </thead>
+        <tbody th:remove="all-but-first">
+          <tr th:each="festival : ${festivallist}">
+            <td th:text="${festival.name}">Beispiel-Festival</td>
+            <td th:text="${festival.ticketBuilder.amountDaytickets} + ' / ' + ${festival.ticketBuilder.priceDayticket}">
+              Anzahl / Preis</td>
+            <td>
+              <form method="post" role="form" class="ui form" name="form" th:action="@{/ticketDay}">
+                <input type="hidden" th:value="${festival.getId()}" name="id" />
+                <input type="hidden" value="DAYTICKET" name="sort_str" />
+                <button type="submit" class="ui button">Kaufen</button>
+              </form>
+            </td>
+            <td
+              th:text="${festival.ticketBuilder.amountCampingtickets} + ' / ' + ${festival.ticketBuilder.priceCampingticket}">
+              Anzahl / Preis</td>
+            <td>
+              <form method="post" role="form" class="ui form" name="form" th:action="@{/ticketCamping}">
+                <input type="hidden" th:value="${festival.getId()}" name="id" />
+                <input type="hidden" value="CAMPINGTICKET" name="sort_str" />
+                <button type="submit" class="ui button">Kaufen</button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BOOTSTRAP SCRIPTS -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+  <script>
+    // Get the current year for the copyright
+    $("#year").text(new Date().getFullYear());
+  </script>
+</body>
+
+</html>

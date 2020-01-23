@@ -1,0 +1,122 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+  <title>Prototype</title>
+</head>
+
+<body>
+  <!--  START HERE  -->
+  <script type="text/javascript" language="javascript">
+    function goToCreateLineup() {
+      var currURL = location.pathname
+      currURL = currURL.replace("/lineup", "/createLineup");
+      location.href = currURL;
+    }
+  </script>
+
+  <section
+    sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER') or hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')">
+  </section>
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <a href="/" class="navbar-brand">
+      <h3 class="mb-0">FVIV</h3>
+    </a>
+    <ul class="navbar-nav mr-auto smooth-scroll">
+      <li class="nav-item">
+        <a th:href="@{'/location/' + ${location.getName()} + '/area/' + ${area.getZone()} + '/stage'}"
+          class="nav-link">Back</a>
+      </li>
+    </ul>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav nav-flex-icons">
+      <li class="nav-item">
+        <a class="nav-link">
+          <i class="fas fa-user-secret"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+          <input hidden type="submit" value="Sign Out" />
+        </form>
+      </li>
+    </ul>
+  </nav>
+  <!--  Overlay -->
+  <section class="d-flex align-items-center" id="showcase2">
+    <div id="overlay"></div>
+    <div id="header" class="container text-white text-center">
+      <h1 class="text-center dark-grey-text font-weight-bold mb-5 pt-3">
+        <strong>All Lineups</strong>
+      </h1>
+    </div>
+  </section>
+  <br>
+  <br>
+
+
+
+  <div id="wrapper" class="container card">
+    <h1 th:text="'Stage: ' + ${stage.getName()}" class="text-center mb-05"></h1>
+    <div class="container text-center">
+      <ul class="list-group" th:each="lineup : ${lineupList}">
+        <li class="list-group-item">
+          <ul class="list-group">
+            <h5 th:text="'Festival: ' + ${lineup.getFestival().getName()}"></h5>
+            <h5 th:text="'Artist: ' + ${lineup.getArtist()}"></h5>
+            <h5 th:text="'Date: ' + ${lineup.getDate()}"></h5>
+            <button class="btn btn-success text-light">
+              <a class= "text-light"
+                th:href="@{'/location/' + ${location.getName()} + '/area/' + ${area.getZone()} + '/stage/' + ${stage.getName()} + '/lineup/' + ${lineup.getId()}}">Edit
+                Lineup</a>
+            </button>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <br>
+  </div>
+
+  <section class="d-flex align-items-center mb-02">
+    <div id="header" class="container text-white text-center">
+      <br>
+      <button class="btn btn-primary">
+        <a href="#" onclick="goToCreateLineup()" class="text-light">Add a new Lineup</a>
+      </button>
+    </div>
+  </section>
+  <br>
+  <br>
+  </section>
+
+
+  <!-- BOOTSTRAP SCRIPTS -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+  <script>
+    // Get the current year for the copyright
+    $("#year").text(new Date().getFullYear());
+  </script>
+</body>
+
+</html>

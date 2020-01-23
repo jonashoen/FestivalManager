@@ -1,0 +1,141 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+
+<body>
+  <div th:fragment="section6">
+
+    <!-- Section 6 User -->
+    <section id="contact" class="mb-5" sec:authorize="!isAuthenticated()">
+
+      <!-- Section heading -->
+      <h3 class="text-center my-5 pt-3 pb-4 dark-grey-text font-weight-bold wow fadeIn" data-wow-delay="0.2s">
+        <strong>Contact us</strong>
+      </h3>
+
+      <!--Section description-->
+      <p class="text-center w-responsive mx-auto my-5 grey-text">If you have Questions you may Contract us here and we
+        will get in Contract with you. </p>
+
+      <div class="row">
+
+        <!--Grid column-->
+        <div class="col-md-8 col-xl-9">
+
+
+          <!--Grid row-->
+          <div class="row">
+
+            <!--Grid column-->
+            <div class="col-md-6">
+              <div class="md-form">
+                <div class="md-form">
+                  <input type="text" name="name" id="contact-name" class="form-control">
+                  <label for="contact-name" class="">Your name</label>
+                </div>
+              </div>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-md-6">
+              <div class="md-form">
+                <div class="md-form">
+                  <input type="text" name="email" id="contact-email" class="form-control">
+                  <label for="contact-email" class="">Your email</label>
+                </div>
+              </div>
+            </div>
+            <!--Grid column-->
+
+          </div>
+          <!--Grid row-->
+
+          <!--Grid row-->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="md-form">
+                <input type="text" name="subject" id="contact-Subject" class="form-control">
+                <label for="contact-Subject" class="">Subject</label>
+              </div>
+            </div>
+          </div>
+          <!--Grid row-->
+
+          <!--Grid row-->
+          <div class="row">
+
+            <!--Grid column-->
+            <div class="col-md-12">
+
+              <div class="md-form">
+                <textarea name="message" type="text" id="contact-message" class="md-textarea form-control"
+                  rows="3"></textarea>
+                <label for="contact-message">Your message</label>
+              </div>
+
+            </div>
+          </div>
+          <!--Grid row-->
+
+
+
+          <div class="text-center text-md-left my-4">
+            <button class="btn btn-indigo" type="submit" name="submit">SEND MAIL</button>
+          </div>
+        </div>
+        <!--Grid column-->
+
+
+
+
+        <!--Grid column-->
+        <div class="col-md-4 col-xl-3">
+          <ul class="text-center list-unstyled">
+            <li>
+              <i class="fas fa-map-marker-alt fa-2x indigo-text"></i>
+              <p>Dresden, 08102 Germany</p>
+            </li>
+
+            <li>
+              <i class="fas fa-phone fa-2x indigo-text"></i>
+              <p>+ 01 234 567 89</p>
+            </li>
+
+            <li>
+              <i class="fas fa-envelope fa-2x indigo-text"></i>
+              <p>fvivfestival@gmail.com</p>
+            </li>
+          </ul>
+        </div>
+        <!--Grid column-->
+
+      </div>
+
+    </section>
+
+    <!-- Section 6 MANAGER -->
+
+    <!-- Section 6 CATERING -->
+
+    <!-- Section 6 SECURITY -->
+
+    <!-- Section 6 TICKET_SALESMAN -->
+
+
+  </div>
+</body>
+
+</html>

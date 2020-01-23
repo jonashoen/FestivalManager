@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--  BOOTSTRAP STUFF  -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+    <title>Festivals</title>
+
+    <style>
+        #festivalContainer {
+            margin: 50px 0 0 100px;
+            position: relative;
+        }
+
+        #festivalLinks {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <a href="/" class="navbar-brand">
+            <h3 class="mb-0">FVIV FESTIVAL</h3>
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="/" class="nav-link ">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/festival/add" class="nav-link">Create a Festival</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/festivals" class="nav-link">See all existing Festivals</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="festivalContainer">
+        <p th:text="${festival.name + ' in ' + festival.location + ' von, bis ' + festival.formattedDate}"></p>
+
+        <ul>
+            <li th:each="item : ${festival.plan}" th:text="${item}"></li>
+        </ul>
+
+        <div id="festivalLinks">
+            <a th:href="${'/festival/' + festival.name + '-' + festival.id + '/edit/'}">Festival editieren</a>
+            <a th:href="${'/festival/' + festival.name + '-' + festival.id + '/inventory/'}">Lager anzeigen</a>
+        </div>
+    </div>
+</body>
+
+</html>

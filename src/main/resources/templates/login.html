@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>LOGIN</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link type="text/css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link th:href="@{/resources/css/mdb.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/resources/css/timeline.min.css}">
+    <link th:href="@{/resources/css/addons-pro/chat.css}" rel="stylesheet">
+    <style>
+        html,
+        body,
+        header,
+        .view {
+            height: 100vh;
+        }
+
+        @media (max-width: 740px) {
+
+            html,
+            body,
+            header,
+            .view {
+                height: 700px;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+
+            html,
+            body,
+            header,
+            .view {
+                height: 650px;
+            }
+        }
+    </style>
+</head>
+
+<body class="login-page">
+
+
+    <header>
+
+        <div th:fragment="usersection" id=" home" class="view jarallax" data-jarallax='{"speed": 0.2}'>
+            <div class="mask rgba-black-strong">
+                <div class="container h-100 d-flex justify-content-center align-items-center mt-5">
+
+                    <div class="col-md-12 text-center white-text">
+                        <div class="wow fadeInDown" data-wow-delay="0.2s">
+
+                            <div class="container">
+
+                                <div class="col-xl-5 col-lg-6 col-md-10 col-sm-12 mx-auto mt-lg-5">
+
+
+                                    <div class="card">
+
+                                        <h5 class="card-header info-color white-text text-center py-4">
+                                            <strong>Sign in</strong>
+                                        </h5>
+
+                                        <!--Card content-->
+                                        <div class="card-body px-lg-5 pt-0">
+
+                                            <!-- Form -->
+                                            <form class="text-center" style="color: #757575;" role="form"
+                                                th:action="@{/login}" method="post">
+
+                                                <!-- Username -->
+                                                <div class="md-form">
+                                                    <input type="text" id="username" name="username"
+                                                        class="form-control">
+                                                    <label th:text="#{login.username}" for="Username">Username</label>
+                                                </div>
+
+                                                <!-- Password -->
+                                                <div class="md-form">
+                                                    <input type="password" id="password" name="password"
+                                                        class="form-control">
+                                                    <label th:text="#{login.password}" for="password">Password</label>
+                                                </div>
+
+                                                <!-- Sign in button -->
+                                                <button
+                                                    class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
+                                                    type="submit" th:text="#{login.login}">Log in</button>
+
+                                            </form>
+                                            <!-- Form -->
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intro Section -->
+
+
+
+
+
+
+    </header>
+    <!-- Main Navigation -->
+    <!-- SCRIPTS -->
+
+    <!-- JQuery -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/popper.min.js}"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" rel="script" th:src="@{/resources/js/mdb.min.js}"></script>
+    <!-- Custom scripts -->
+    <script sec:authorize="!isAuthenticated()">
+        new WOW().init();
+    </script>
+</body>
+
+</html>

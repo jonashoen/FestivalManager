@@ -1,0 +1,141 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Lets try this !</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link type="text/css" th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- Basic CSS with Thymeleaf -->
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+  <!-- Material Design Bootstrap -->
+  <link th:href="@{/resources/css/mdb.min.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/resources/css/timeline.min.css}">
+  <link th:href="@{/resources/css/addons-pro/chat.css}" rel="stylesheet">
+  <style>
+    html,
+    body,
+    header,
+    .view.jarallax {
+      height: 100%;
+      min-height: 100%;
+
+    }
+
+    .card-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .card-wrapper {
+      height: unset !important;
+    }
+
+    #inventoryContainer {
+      margin: 100px auto;
+      width: 70%;
+    }
+
+    #inner-navigation {
+      width: 70%;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation & Intro -->
+  <!-- Userspecific Navbar -->
+  <section sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER')">
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <a href="/" class="navbar-brand">
+        <h3 class="mb-0">FVIV</h3>
+      </a>
+      <ul class="navbar-nav mr-auto smooth-scroll">
+        <li class="nav-item">
+          <a href="/#economics" class="nav-link">Back</a>
+        </li>
+      </ul>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="navbar-nav nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="fas fa-user-secret"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+          <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out" />
+          </form>
+        </li>
+      </ul>
+    </nav>
+    <br>
+    <br>
+    <div id="div_print" class="container card">
+      <br>
+      <h2 class="text-center">
+        <strong>Current Overview</strong>
+      </h2>
+      <br>
+      <ul style="list-style: none;">
+
+        <li class="text-center" th:each="festival : ${festivals}">
+          <p th:text="${'Accountancy for: ' + festival.name + ': ' + economicManager.getSum(festival)}">
+          </p>
+        </li>
+        <hr>
+        <p class="text-center">
+          <strong class="text-center" th:text="${'So in total: ' + economicManager.getOverallSum()}"></strong>
+        </p>
+        <br>
+        <div class="container text-center">
+          <input name="b_print" type="button" class="btn btn-success ipt text-center" onClick="printdiv('div_print');"
+            value=" Print ">
+        </div>
+      </ul>
+    </div>
+
+  </section>
+
+
+  <!-- Print SCRIPTS -->
+  <script language="javascript">
+    function printdiv(printpage) {
+      var headstr = "<html><head><title></title></head><body>";
+      var footstr = "</body>";
+      var newstr = document.all.item(printpage).innerHTML;
+      var oldstr = document.body.innerHTML;
+      document.body.innerHTML = headstr + newstr + footstr;
+      window.print();
+      document.body.innerHTML = oldstr;
+      return false;
+    }
+  </script>
+
+
+  <!--  JQuery  -->
+  <script type="text/javascript" rel="script" th:src="@{/resources/js/jquery-3.4.1.min.js}"></script>
+  <!--  Bootstrap tooltips  -->
+  <script type="text/javascript" rel="script" th:src="@{/resources/js/popper.min.js}"></script>
+  <!--  Bootstrap core JavaScript  -->
+  <script type="text/javascript" rel="script" th:src="@{/resources/js/bootstrap.min.js}"></script>
+  <!--  MDB core JavaScript  -->
+  <script type="text/javascript" rel="script" th:src="@{/resources/js/mdb.min.js}"></script>
+
+  <!-- Custom scripts -->
+
+  <script sec:authorize="!isAuthenticated()">
+    new WOW().init();
+  </script>
+</body>
+
+</html>

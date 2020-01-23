@@ -1,0 +1,127 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+  <title>Create Area</title>
+</head>
+
+<body>
+
+  <!--  START HERE  -->
+  <script type="text/javascript" language="javascript">
+    var currentURL = "@{" + location.pathname + "}";
+  </script>
+
+  <section
+    sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER') or hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')">
+
+    <!--  NavBar -->
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <a href="/" class="navbar-brand">
+        <h3 class="mb-0">FVIV</h3>
+      </a>
+      <ul class="navbar-nav mr-auto smooth-scroll">
+        <li class="nav-item">
+          <a th:href="@{'/location/' + ${location.getName()} + '/area'}" class="nav-link">Back</a>
+        </li>
+      </ul>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="navbar-nav nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="fas fa-user-secret"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+          <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out" />
+          </form>
+        </li>
+      </ul>
+    </nav>
+    <!--  Overlay -->
+    <section class="d-flex align-items-center" id="showcase2">
+      <div id="overlay"></div>
+      <div id="header" class="container text-white text-center">
+        <h1 class="text-center dark-grey-text font-weight-bold mb-5 pt-3">
+          <strong>Create Area</strong>
+        </h1>
+      </div>
+    </section>,
+    <br>
+    <br>
+
+    <!--  Input Fields -->
+    <section>
+
+      <div id="wrapper" class="container text-center card">
+        <h1 class="mb-3 mt-5"> Create Area </h1>
+        <form method="POST" th:action="${currentURL}" th:object="${area}">
+          <label for="zone">Zone</label>
+          <input type="text" required="required" th:field="*{zone}" class="form-control" />
+          <br />
+          <label for="maxVisitors">Max Visitors</label>
+          <input type="number" required="required" th:field="*{maxVisitors}" class="form-control" />
+          <br />
+          <label for="type">Type</label><br />
+          <label class="box-radio-input">
+            <input type="radio" name="chk_info" th:field="*{type}" value="CAMPING"><span>Camping</span></label>
+          <label class="box-radio-input">
+            <input type="radio" name="chk_info" th:field="*{type}" value="PARK"><span>Park</span></label>
+          <label class="box-radio-input">
+            <input type="radio" name="chk_info" th:field="*{type}" value="CATERING"><span>Catering</span></label>
+          <label class="box-radio-input">
+            <input type="radio" name="chk_info" th:field="*{type}" value="STAGE"><span>Stage</span></label>
+          <br />
+          <br />
+
+          <label for="maxStages">Max Stages</label>
+          <input type="number" th:field="*{maxStages}" placeholder="Do not enter anything if this area is not a stage"
+            class="form-control" />
+
+          <br />
+          <br />
+
+          <button type="button" onclick="goBack()" class="btn btn-danger text-light">Cancel</button>
+          <button type="submit" class="btn btn-primary text-light">Create Area</button>
+
+        </form>
+
+      </div>
+
+    </section>
+    <br>
+    <br>
+
+
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+      integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+      crossorigin="anonymous"></script>
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+      // Get the current year for the copyright
+      $("#year").text(new Date().getFullYear());
+    </script>
+</body>
+
+</html>

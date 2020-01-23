@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--  BOOTSTRAP STUFF  -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+    <title>Lager</title>
+
+    <style>
+        #inventoryContainer {
+            margin: 50px 0 0 100px;
+        }
+
+        #festivalAddForm {
+            width: 50%;
+            margin: 40px 0 75px 150px;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            padding-bottom: 20px;
+        }
+
+        input.btn-dark {
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <section
+        sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER') or hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')">
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <a href="/" class="navbar-brand">
+                <h3 class="mb-0">FVIV</h3>
+            </a>
+            <ul class="navbar-nav mr-auto smooth-scroll">
+                <li class="nav-item">
+                    <a href="/inventory" class="nav-link">Back</a>
+                </li>
+            </ul>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <i class="fas fa-user-secret"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript: document.logoutForm.submit()" data-offset="80">Logout</a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out" />
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        <form id="festivalAddForm" th:action="@{/inventory/add}" method="POST">
+            <div class="form-group col-md-8">
+                <label class="col-form-label text-center" for="name">Name</label>
+                <input class="form-control" type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label class="col-form-label text-center" placeholder="Price in €" for="price">Price</label>
+                <input class="form-control" type="number" placeholder="Price in €" step="0.01" id="price" name="price" required>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label class="col-form-label text-center"  for="cost">Cost</label>
+                <input class="form-control" type="number" placeholder="Cost in €" step="0.01" id="cost" name="cost" required>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label class="col-form-label text-center" for="minimalQuantity">minimal Quantity</label>
+                <input class="form-control" type="number" id="minimalQuantity" name="minimalQuantity" required>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label class="col-form-label text-center" for="quantity">Quantity</label>
+                <input class="form-control" type="number" id="quantity" name="quantity" required>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label class="col-form-label text-center" for="category">Category</label>
+                <select class="form-control" id="category" name="category">
+                    <option value="food">Food</option>
+                    <option value="drink">Drink</option>
+                    <option value="furniture">Furniture</option>
+                </select>
+            </div>
+
+            <input type="submit" class="btn btn-dark" value="Add to Inventory">
+            <div class="form-group col-md-8">
+                <a href="/inventory" class="btn btn-outline-danger" role="button">Cancel</a>
+            </div>
+        </form>
+
+    </section>
+
+</body>
+
+</html>

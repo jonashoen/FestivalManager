@@ -1,0 +1,11 @@
+=== Predefined User Accounts
+
+For every role a user could have, we precreated an account defined by an username and a password:
+
+|===
+|Role              |Username          |Password
+|Manager           |MANAGER           |123
+|Catering          |CATERING          |123
+|Security          |SECURITY          |123
+|Ticket Salesman   |TICKET_SALESMAN   |123
+|===

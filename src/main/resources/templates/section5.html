@@ -1,0 +1,450 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+  <!--  BOOTSTRAP STUFF  -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+
+<body>
+  <div th:fragment="section5">
+
+    <!-- Section 5 User -->
+    <section id="faq" class="pt-1" sec:authorize="!isAuthenticated()">
+
+      <!-- Section heading -->
+      <h3 class="text-center my-5 pt-3 dark-grey-text font-weight-bold wow fadeIn" data-wow-delay="0.2s">
+        <strong>Frequently Asked Question</strong>
+      </h3>
+      <!-- Section description -->
+      <p class="text-center w-responsive mx-auto my-5 grey-text">Here we put some Frequently asked Questions for the
+        Festival Visitors. Like where are the Toilets etc..</p>
+
+      <!-- Grid row -->
+      <div class="row gradient-background d-flex justify-content-center">
+
+        <!-- Grid column -->
+        <div class="col-md-10 col-xl-10 pb-5 pt-3">
+
+          <!--Accordion wrapper-->
+          <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+            <!-- Accordion card -->
+            <div class="card border-0">
+
+              <!-- Card header -->
+              <div class="card-header white z-depth-1 border-0 mb-1" role="tab" id="heading1">
+                <a data-toggle="collapse" data-parent="#accordionEx" href="#collapse1" aria-expanded="true"
+                  aria-controls="collapse1">
+                  <h5 class="mb-0 dark-grey-text">
+                    #1 Where are the Toilets?!
+                    <i class="fas fa-angle-down rotate-icon"></i>
+                  </h5>
+                </a>
+              </div>
+
+              <!-- Card body -->
+              <div id="collapse1" class="collapse show" role="tabpanel" aria-labelledby="heading1"
+                data-parent="#accordionEx">
+                <div class="card-body mb-1 rgba-indigo-strong white-text">
+                  <p>Depending on the Location. In Dresden they are near Stage A... In Berlin .... ...
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- Accordion card -->
+
+            <!-- Accordion card -->
+            <div class="card border-0">
+
+              <!-- Card header -->
+              <div class="card-header White z-depth-1 border-0 mb-1" role="tab" id="heading2">
+                <a class="collapsed" data-toggle="collapse" href="#collapse2" aria-expanded="false"
+                  aria-controls="collapse2">
+                  <h5 class="mb-0 dark-grey-text">
+                    #2 What payment types do you accept?
+                    <i class="fas fa-angle-down rotate-icon"></i>
+                  </h5>
+                </a>
+              </div>
+
+              <!-- Card body -->
+              <div id="collapse2" class="collapse" role="tabpanel" aria-labelledby="heading2"
+                data-parent="#accordionEx">
+                <div class="card-body mb-1 rgba-indigo-strong white-text">
+                  <p>We accept Paypal, Google Pay, Apple Pay or...</p>
+                </div>
+              </div>
+            </div>
+            <!-- Accordion card -->
+
+            <!-- Accordion card -->
+            <div class="card border-0">
+
+              <!-- Card header -->
+              <div class="card-header white z-depth-1 border-0 mb-1" role="tab" id="heading3">
+                <a class="collapsed" data-toggle="collapse" href="#collapse3" aria-expanded="false"
+                  aria-controls="collapse3">
+                  <h5 class="mb-0 dark-grey-text">
+                    #3 Can I return the tickets?
+                    <i class="fas fa-angle-down rotate-icon"></i>
+                  </h5>
+                </a>
+              </div>
+
+              <!-- Card body -->
+              <div id="collapse3" class="collapse" role="tabpanel" aria-labelledby="heading3"
+                data-parent="#accordionEx">
+                <div class="card-body mb-1 rgba-indigo-strong white-text">
+                  <p>You can return the Tickets, before the festivalevent on our Homepage : www.fviv-festivals.com
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- Accordion card -->
+          </div>
+          <!--/.Accordion wrapper-->
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </section>
+    <hr>
+
+    <!-- Section 5 MANAGER -->
+
+    <!-- Section All Accounts -->
+    
+    <section id="staff" sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER')">
+      <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+        <strong> Existing Accounts </strong>
+      </h3>
+
+      <table class="table table-bordered">
+        <thead class="black white-text">
+          <tr>
+            <th>NAME</th>
+            <th>FIRST NAME</th>
+            <th>LAST NAME</th>
+            <th>ROLES</th>
+            <th>HOURLY WAGE</th>
+            <th>HOURS WORKED</th>
+            <th>FESTIVAL</th>
+            <th>DELETE</th>
+            <th>CHANGE PASSWORD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <th:block th:each="account:${accountList}">
+            <tr>
+              <td th:text="${account.getUserAccount().username}"></td>
+              <td th:text="${account.firstName}"></td>
+              <td th:text="${account.lastName}"></td>
+              <td th:text="${account.getUserAccount().roles.toList()}"></td>
+              <td th:text="${account.getHourlyWageWithoutNull()}"></td>
+              <td th:text="${account.getWorkedHoursWithoutNull()}"></td>
+              <td th:text="${account.festivalNameWithoutNull}"></td>
+              <td>
+                <form th:action="@{deleteAccount/{name}(name=${account.getUserAccount().username})}" method="get">
+                  <a onclick="return confirm('Are you sure you want to remove the Account?');" type="submit" th:href="@{deleteAccount/{name}(name=${account.getUserAccount().username})}"
+                    th:text="#{deleteAccount}" class="btn btn-red">
+                  </a>
+                </form>
+              </td>
+              <td>
+                <form th:action="@{changePassword/{name}(name=${account.getUserAccount().username})}" method="get">
+                  <a type="submit" th:href="@{changePassword/{name}(name=${account.getUserAccount().username})}"
+                    th:text="#{change.password}" class="btn btn-green">
+                  </a>
+                </form>
+              </td>
+        </tbody>
+
+
+      </table>
+
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAccount">
+        Create Account
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="createAccount" tabindex="-1" role="dialog" aria-labelledby="createAccountModal"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="createAccountModal">Create an Account</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="accountAddForm" th:action="@{/createAccount}" th:object="${form}" method="POST">
+
+                <div class="field">
+                  <label for="usrName">Username</label><br />
+                  <input id="usrName" name="usrName" th:field="*{usrName}" th:errorclass="fieldError" type="text"
+                    required="required" />
+                </div>
+
+                <div class="field">
+                  <label th:text="#{createAccount.password}" for="password">password</label><br />
+                  <input id="password" name="password" th:field="*{password}" th:errorclass="fieldError" type="password"
+                    required="required" />
+                </div>
+
+                <div class="field">
+                  <label for="firstName">First Name</label><br />
+                  <input id="firstName" name="firstName" th:field="*{firstName}" th:errorclass="fieldError" type="text"
+                    required="required" />
+                </div>
+
+                <div class="field">
+                  <label for="lastName">Last Name</label><br />
+                  <input id="lastName" name="lastName" th:field="*{lastName}" th:errorclass="fieldError" type="text"
+                    required="required" />
+                </div>
+
+                <div class="field">
+                  <label th:text="#{createAccount.festivalManager}" for="festivalManager">Festival Manager</label>
+                  <input id="festivalManager" name="festivaManager" th:field="*{festivalManager}"
+                    th:errorclass="fieldError" type="checkbox" />
+                </div>
+
+                <div class="field">
+                  <label th:text="#{createAccount.catering}" for="catering">catering</label>
+                  <input id="catering" name="catering" th:field="*{catering}" th:errorclass="fieldError"
+                    type="checkbox" />
+                </div>
+
+                <div class="field">
+                  <label th:text="#{createAccount.security}" for="security">Security</label>
+                  <input id="security" name="security" th:field="*{security}" th:errorclass="fieldError"
+                    type="checkbox" />
+                </div>
+                <div class="field">
+                  <label th:text="#{createAccount.ticketSalesman}" for="ticketSalesman">Ticket Salesman</label>
+                  <input id="ticketSalesman" name="ticketSalesman" th:field="*{ticketSalesman}"
+                         th:errorclass="fieldError" type="checkbox" />
+                </div>
+                <div class="field">
+                  <label th:text="#{createAccount.workedHours}" for="workedHours"></label>
+                  <input id="workedHours" name="workedHours" th:field="*{workedHours}"
+                    th:errorclass="fieldError" type="number" />
+                </div>
+
+                <div class="field">
+                  <label th:text="#{createAccount.hourlyWage}" for="hourlyWage"></label>
+                  <input id="hourlyWage" name="hourlyWage" th:field="*{hourlyWage}"
+                         th:errorclass="fieldError" type="number" />
+                </div>
+                <div>
+                <select th:field="*{festival}">
+                  <label th:text="#{createAccount.Festival}"></label>
+                  <option th:each="festival : ${festivals}" th:text="${festival.getName()}" th:value="${festival.getName()}">
+                  </option>
+                </select>
+                </div>
+                <input class="btn btn-dark" type="submit" value="Create">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <!-- Section All Accounts -->
+
+      <!-- Section Msg System Accounts -->
+
+      <section id="staff" sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER')">
+      <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+        <strong> Message System </strong>
+      </h3>
+      <div class="container">
+
+        <table class="table table-bordered">
+          <thead class="black white-text">
+            <tr>
+              <th>NAME</th>
+              <th>MESSAGE SEND</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <th:block th:each="message : ${messageManagement.findBySender(Account)}">
+              <tr>
+                <td th:text="${message.receiver.getUserAccount().username}"></td>
+                <td th:text="${message.message}"></td>
+              </tr>
+            </th:block>
+          </tbody>
+        </table>
+        <form th:action="@{sendMessage/{name}(name=${Account.getUserAccount().username})}" method=" get">
+          <a type="submit" th:href="@{sendMessage/{name}(name=${Account.getUserAccount().username})}"
+            th:text="${'Send new Message'}" class="btn btn-primary">
+          </a>
+        </form>
+        <hr>
+      </div>
+    </section>
+    <!-- Section Msg System Accounts -->
+
+    <!-- Section Currently Online -->
+
+    <section id="messages" sec:authorize="hasAuthority('MANAGER') or hasRole('MANAGER')">
+      <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+        <strong>Online Accounts </strong>
+      </h3>
+      <div class="container">
+
+        <table class="table table-bordered">
+          <thead class="black white-text">
+            <tr>
+              <th>CURRENTLY ONLINE</th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+            <th:block th:each="account : ${accountManager.getUsersFromSessionRegistry()}">
+              <tr>
+                <td th:text="${account}"></td>
+              </tr>
+            </th:block>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- Section Currently Online -->
+
+
+    </section>
+
+    <!-- Section 5 FESTIVAL_MANAGER -->
+    <section id="messages" sec:authorize="hasAuthority('FESTIVAL_MANAGER') or hasRole('FESTIVAL_MANAGER')">
+      <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+        <strong> Message System </strong>
+      </h3>
+      <div class="container">
+  
+        <table class="table table-bordered">
+          <thead class="black white-text">
+            <tr>
+              <th>NAME</th>
+              <th>MESSAGE RECEIVED</th>
+            </tr>
+          </thead>
+          <tbody>
+  
+            <th:block th:each="message : ${messageManagement.findByReceiver(Account)}">
+              <tr>
+                <td th:text="${message.sender.getUserAccount().username}"></td>
+                <td th:text="${message.message}"></td>
+              </tr>
+            </th:block>
+          </tbody>
+        </table>
+        <hr>
+      </div>
+      </section>
+
+    <!-- Section 5 CATERING -->
+    <section id="messages" sec:authorize="hasAuthority('CATERING') or hasRole('CATERING')">
+    <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+      <strong> Message System </strong>
+    </h3>
+    <div class="container">
+
+      <table class="table table-bordered">
+        <thead class="black white-text">
+          <tr>
+            <th>NAME</th>
+            <th>MESSAGE RECEIVED</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <th:block th:each="message : ${messageManagement.findByReceiver(Account)}">
+						<tr>
+							<td th:text="${message.sender.getUserAccount().username}"></td>
+							<td th:text="${message.message}"></td>
+						</tr>
+					</th:block>
+        </tbody>
+      </table>
+      <hr>
+    </div>
+    </section>
+
+    <!-- Section 5 SECURITY -->
+    <section id="messages" sec:authorize="hasAuthority('SECURITY') or hasRole('SECURITY')">
+      <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+        <strong> Message System </strong>
+      </h3>
+      <div class="container">
+  
+        <table class="table table-bordered">
+          <thead class="black white-text">
+            <tr>
+              <th>NAME</th>
+              <th>MESSAGE RECEIVED</th>
+            </tr>
+          </thead>
+          <tbody>
+  
+            <th:block th:each="message : ${messageManagement.findByReceiver(Account)}">
+              <tr>
+                <td th:text="${message.sender.getUserAccount().username}"></td>
+                <td th:text="${message.message}"></td>
+              </tr>
+            </th:block>
+          </tbody>
+        </table>
+        <hr>
+      </div>
+      </section>
+
+    <!-- Section 5 TICKET_SALESMAN -->
+    <section id="messages" sec:authorize="hasAuthority('TICKET_SALESMAN') or hasRole('TICKET_SALESMAN')">
+      <h3 class="text-center dark-grey-text font-weight-bold mb-5 pt-3 wow fadeIn" data-wow-delay="0.3s">
+        <strong> Message System </strong>
+      </h3>
+      <div class="container">
+  
+        <table class="table table-bordered">
+          <thead class="black white-text">
+            <tr>
+              <th>NAME</th>
+              <th>MESSAGE RECEIVED</th>
+            </tr>
+          </thead>
+          <tbody>
+  
+            <th:block th:each="message : ${messageManagement.findByReceiver(Account)}">
+              <tr>
+                <td th:text="${message.sender.getUserAccount().username}"></td>
+                <td th:text="${message.message}"></td>
+              </tr>
+            </th:block>
+          </tbody>
+        </table>
+        <hr>
+      </div>
+      </section>
+    
+</body>
+
+</html>
