@@ -2,6 +2,12 @@
 
 A university project to manage festivals.
 
+== Authors
+* @ahndavin
+* @Kitsunox
+* @kurdey
+* @TalontedSol
+* @jonashoen
 
 == Built With
 * Spring
